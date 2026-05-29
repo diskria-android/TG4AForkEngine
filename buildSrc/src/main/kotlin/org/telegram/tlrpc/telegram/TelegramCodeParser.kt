@@ -45,7 +45,7 @@ object TelegramCodeParser {
                             if (variable.nameAsString == "constructor") {
                                 variable.initializer.ifPresent { expr ->
                                     expr.asIntegerLiteralExpr()?.let {
-                                        constructorValue = it.asInt()
+                                        constructorValue = /* forky comment it.asInt() */ /* forky code start */ it.asNumber().toInt() /* forky code end */
                                     }
                                 }
 

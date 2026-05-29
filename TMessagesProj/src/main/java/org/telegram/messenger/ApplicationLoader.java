@@ -117,29 +117,37 @@ public class ApplicationLoader extends Application {
     }
 
     public static String getApplicationId() {
-        return applicationLoaderInstance.onGetApplicationId();
+        // forky comment line return applicationLoaderInstance.onGetApplicationId();
+        return BuildConfig.APPLICATION_ID; // forky code line
     }
 
+    /* forky comment
     protected String onGetApplicationId() {
         return null;
     }
+    */
 
     public static boolean isHuaweiStoreBuild() {
-        return applicationLoaderInstance.isHuaweiBuild();
+        // forky comment line return applicationLoaderInstance.isHuaweiBuild();
+        return "huawei".equals(BuildConfig.FLAVOR_distributionType); // forky code line
     }
 
     public static boolean isStandaloneBuild() {
-        return applicationLoaderInstance.isStandalone();
+        // forky comment line return applicationLoaderInstance.isStandalone();
+        return "direct".equals(BuildConfig.FLAVOR_distributionType); // forky code line
     }
 
     public static boolean isBetaBuild() {
-        return applicationLoaderInstance.isBeta();
+        // forky comment line return applicationLoaderInstance.isBeta();
+        return "beta".equals(BuildConfig.FLAVOR_distributionType); // forky code line
     }
 
     public static boolean isAndroidTestEnvironment() {
-        return applicationLoaderInstance.isAndroidTestEnv();
+        // forky comment line return applicationLoaderInstance.isAndroidTestEnv();
+        return "appTestEnv".equals(BuildConfig.FLAVOR_distributionType); // forky code line
     }
 
+    /* forky comment
     protected boolean isHuaweiBuild() {
         return false;
     }
@@ -155,6 +163,7 @@ public class ApplicationLoader extends Application {
     protected boolean isAndroidTestEnv() {
         return false;
     }
+    */
 
     public static File getFilesDirFixed() {
         for (int a = 0; a < 10; a++) {

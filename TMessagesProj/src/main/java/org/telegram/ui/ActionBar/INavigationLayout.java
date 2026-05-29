@@ -310,6 +310,7 @@ public interface INavigationLayout {
         /**
          * @deprecated You should override {@link INavigationLayoutDelegate#needPresentFragment(INavigationLayout, NavigationParams)} for more fields
          */
+        @Deprecated // forky code line
         default boolean needPresentFragment(BaseFragment fragment, boolean removeLast, boolean forceWithoutAnimation, INavigationLayout layout) {
             return true;
         }

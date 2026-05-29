@@ -10,6 +10,12 @@
                       android:smallScreens="true"
                       android:xlargeScreens="true"/>
 
+    <!-- forky code start -->
+    <uses-feature android:name="android.hardware.location.gps" android:required="false" />
+    <uses-feature android:name="android.hardware.location.network" android:required="false" />
+    <uses-feature android:name="android.hardware.location" android:required="false" />
+    <uses-feature android:name="android.hardware.LOCATION" android:required="false" />
+    <!-- forky code end -->
     <uses-feature android:glEsVersion="0x00020000" android:required="false"/>
     <uses-feature android:name="android.hardware.telephony" android:required="false" />
     <uses-feature android:name="android.hardware.wifi" android:required="false" />
@@ -19,6 +25,18 @@
     <uses-feature android:name="android.hardware.camera2" android:required="false" />
     <uses-feature android:name="android.hardware.sensor.proximity" android:required="false" />
 
+    <!-- forky code start -->
+    <permission android:name="${applicationId}.permission.MAPS_RECEIVE" android:protectionLevel="signature"/>
+    <uses-permission android:name="${applicationId}.permission.MAPS_RECEIVE"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
+    <!-- forky code end -->
     <uses-permission android:name="android.permission.READ_CLIPBOARD"/>
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -80,7 +98,7 @@
     <uses-permission android:name="me.everything.badger.permission.BADGE_COUNT_READ"/>
     <uses-permission android:name="me.everything.badger.permission.BADGE_COUNT_WRITE"/>
     <uses-permission android:name="com.android.vending.BILLING"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" tools:node="replace" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
@@ -95,7 +113,9 @@
     </queries>
 
     <application
-        android:name="org.telegram.messenger.ApplicationLoader"
+        android:label="${applicationLabel}"
+        android:icon="${defaultIcon}"
+        android:roundIcon="${defaultRoundIcon}"
         android:allowBackup="true"
         android:restoreAnyVersion="true"
         android:backupAgent=".BackupAgent"
@@ -107,7 +127,6 @@
         android:requestLegacyExternalStorage="true"
         android:preserveLegacyExternalStorage="true"
         android:allowAudioPlaybackCapture="true"
-        tools:replace="android:supportsRtl"
         android:usesCleartextTraffic="true"
         android:enableOnBackInvokedCallback="true"
     >
@@ -131,8 +150,8 @@
             android:enabled="false"
             android:name="org.telegram.messenger.VintageIcon"
             android:targetActivity="org.telegram.ui.LaunchActivity"
-            android:icon="@mipmap/icon_6_launcher"
-            android:roundIcon="@mipmap/icon_6_launcher_round"
+            android:icon="${vintageIcon}"
+            android:roundIcon="${vintageRoundIcon}"
             android:exported="true">
 
             <intent-filter>
@@ -147,8 +166,8 @@
             android:enabled="false"
             android:name="org.telegram.messenger.AquaIcon"
             android:targetActivity="org.telegram.ui.LaunchActivity"
-            android:icon="@mipmap/icon_4_launcher"
-            android:roundIcon="@mipmap/icon_4_launcher_round"
+            android:icon="${aquaIcon}"
+            android:roundIcon="${aquaRoundIcon}"
             android:exported="true">
 
             <intent-filter>
@@ -163,8 +182,8 @@
             android:enabled="false"
             android:name="org.telegram.messenger.PremiumIcon"
             android:targetActivity="org.telegram.ui.LaunchActivity"
-            android:icon="@mipmap/icon_3_launcher"
-            android:roundIcon="@mipmap/icon_3_launcher_round"
+            android:icon="${premiumIcon}"
+            android:roundIcon="${premiumRoundIcon}"
             android:exported="true">
 
             <intent-filter>
@@ -179,8 +198,8 @@
             android:enabled="false"
             android:name="org.telegram.messenger.TurboIcon"
             android:targetActivity="org.telegram.ui.LaunchActivity"
-            android:icon="@mipmap/icon_5_launcher"
-            android:roundIcon="@mipmap/icon_5_launcher_round"
+            android:icon="${turboIcon}"
+            android:roundIcon="${turboRoundIcon}"
             android:exported="true">
 
             <intent-filter>
@@ -195,8 +214,8 @@
             android:enabled="false"
             android:name="org.telegram.messenger.NoxIcon"
             android:targetActivity="org.telegram.ui.LaunchActivity"
-            android:icon="@mipmap/icon_2_launcher"
-            android:roundIcon="@mipmap/icon_2_launcher_round"
+            android:icon="${noxIcon}"
+            android:roundIcon="${noxRoundIcon}"
             android:exported="true">
 
             <intent-filter>
@@ -680,6 +699,34 @@
         <meta-data
             android:name="com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME"
             android:value="org.telegram.messenger.chromecast.ChromecastOptionsProvider" />
+
+        <!-- forky code start -->
+        <meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyA-t0jLPjUt2FxrA8VPK2EiYHcYcboIR6k" />
+
+        <service
+            android:name="org.telegram.messenger.GcmPushListenerService" android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <uses-library android:name="com.google.android.maps" android:required="false"/>
+
+        <service
+            android:name="org.telegram.messenger.GoogleVoiceClientService"
+            android:exported="true"
+            android:foregroundServiceType="dataSync" />
+
+        <activity
+            android:name="org.telegram.messenger.GoogleVoiceClientActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.voicesearch.SEND_MESSAGE_TO_CONTACTS" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
+        <!-- forky code end -->
 
     </application>
 

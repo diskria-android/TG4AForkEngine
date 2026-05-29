@@ -1,10 +1,21 @@
 import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 
-apply plugin: 'com.android.library'
-
+// forky comment line apply plugin: 'com.android.library'
+// forky code start
+apply plugin: 'com.android.application'
+if (gradle.startParameter.taskNames.any { it.toLowerCase().contains("beta") }) {
+    apply plugin: 'com.google.firebase.crashlytics'
+}
+if (gradle.startParameter.taskNames.any { it.toLowerCase().contains("apptestenv") }) {
+    apply plugin: 'test-generator'
+}
+// forky code end
 repositories {
     mavenCentral()
     google()
+    // forky code start
+    maven { url 'https://developer.huawei.com/repo/' }
+    // forky code end
 }
 
 configurations {
@@ -76,9 +87,12 @@ dependencies {
     implementation 'com.google.android.recaptcha:recaptcha:18.7.1'
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
+    // forky code start
+    implementation files('libs/libgsaverification-client.aar')
+    // forky code end
 }
 
-def isWindows = String.valueOf(DefaultNativePlatform.currentOperatingSystem.toFamilyName() == OperatingSystemFamily.WINDOWS)
+// forky comment line def isWindows = String.valueOf(DefaultNativePlatform.currentOperatingSystem.toFamilyName() == OperatingSystemFamily.WINDOWS)
 android {
     compileSdkVersion 35
     buildToolsVersion '35.0.0'
@@ -96,12 +110,18 @@ android {
         disable 'MissingTranslation'
         disable 'ExtraTranslation'
         disable 'BlockedPrivateApi'
+        checkReleaseBuilds false // forky code line
     }
 
     compileOptions {
+        /* forky comment
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-
+        */
+        // forky code start
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
+        // forky code end
         coreLibraryDesugaringEnabled true
     }
 
@@ -120,7 +140,156 @@ android {
                 arguments '-DANDROID_STL=c++_static', '-DANDROID_PLATFORM=android-21' //, '-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON'
             }
         }
+        // forky code start
+        versionName APP_VERSION_NAME
+
+        ndk {
+            abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+        }
+
+        buildConfigField "String", "BUILD_VERSION_STRING", "\"" + APP_VERSION_NAME + "\""
+        buildConfigField "boolean", "BUILD_HOST_IS_WINDOWS", String.valueOf(DefaultNativePlatform.currentOperatingSystem.toFamilyName() == OperatingSystemFamily.WINDOWS)
+
+        buildConfigField "String", "APP_CENTER_HASH", "\"\""
+        buildConfigField "String", "BETA_URL", "\"\""
+        buildConfigField "boolean", "DEBUG_VERSION", "true"
+        buildConfigField "boolean", "DEBUG_PRIVATE_VERSION", "true"
+        buildConfigField "boolean", "BUNDLE", "false"
+        buildConfigField "int", "VERSION_NUM", "0"
+
+        manifestPlaceholders = [
+                "applicationLabel": "@string/AppName",
+
+                "defaultIcon"     : "@mipmap/ic_launcher",
+                "defaultRoundIcon": "@mipmap/ic_launcher_round",
+
+                "vintageIcon"     : "@mipmap/icon_6_launcher",
+                "vintageRoundIcon": "@mipmap/icon_6_launcher_round",
+
+                "aquaIcon"        : "@mipmap/icon_4_launcher",
+                "aquaRoundIcon"   : "@mipmap/icon_4_launcher_round",
+
+                "premiumIcon"     : "@mipmap/icon_3_launcher",
+                "premiumRoundIcon": "@mipmap/icon_3_launcher_round",
+
+                "turboIcon"       : "@mipmap/icon_5_launcher",
+                "turboRoundIcon"  : "@mipmap/icon_5_launcher_round",
+
+                "noxIcon"         : "@mipmap/icon_2_launcher",
+                "noxRoundIcon"    : "@mipmap/icon_2_launcher_round",
+        ]
+        // forky code end
     }
+
+    // forky code start
+    flavorDimensions "distributionType", "artifactType"
+
+    productFlavors {
+        google {
+            dimension "distributionType"
+            buildConfigField "int", "VERSION_NUM", "7"
+            manifestPlaceholders += ["applicationName": "org.telegram.messenger.google.ApplicationLoaderImpl"]
+        }
+        huawei {
+            dimension "distributionType"
+            buildConfigField "int", "VERSION_NUM", "7"
+            manifestPlaceholders += ["applicationName": "org.telegram.messenger.HuaweiApplicationLoader"]
+        }
+        direct {
+            dimension "distributionType"
+            applicationIdSuffix ".web"
+            buildConfigField "int", "VERSION_NUM", "6"
+            manifestPlaceholders += [
+                    "applicationName" : "org.telegram.messenger.direct.ApplicationLoaderImpl",
+
+                    "defaultIcon"     : "@mipmap/ic_launcher_sa",
+                    "defaultRoundIcon": "@mipmap/ic_launcher_sa",
+
+                    "vintageIcon"     : "@mipmap/icon_6_launcher_sa",
+                    "vintageRoundIcon": "@mipmap/icon_6_launcher_sa",
+
+                    "aquaIcon"        : "@mipmap/icon_4_launcher_sa",
+                    "aquaRoundIcon"   : "@mipmap/icon_4_launcher_sa",
+
+                    "premiumIcon"     : "@mipmap/icon_3_launcher_sa",
+                    "premiumRoundIcon": "@mipmap/icon_3_launcher_sa",
+
+                    "turboIcon"       : "@mipmap/icon_5_launcher_sa",
+                    "turboRoundIcon"  : "@mipmap/icon_5_launcher_sa",
+
+                    "noxIcon"         : "@mipmap/icon_2_launcher_sa",
+                    "noxRoundIcon"    : "@mipmap/icon_2_launcher_sa",
+            ]
+        }
+        appTestEnv {
+            dimension "distributionType"
+            minSdkVersion 26
+            testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+            manifestPlaceholders += ["applicationName": "org.telegram.messenger.apptestenv.ApplicationLoaderImpl"]
+        }
+        beta {
+            dimension "distributionType"
+            applicationIdSuffix ".beta"
+            manifestPlaceholders += [
+                    "applicationName": "org.telegram.messenger.beta.ApplicationLoaderImpl",
+                    "applicationLabel": "@string/AppNameBeta",
+            ]
+            def publicUrl = getProps("BETA_PUBLIC_URL", false)
+            def privateUrl = getProps("BETA_PRIVATE_URL", false)
+            def hardcoreUrl = getProps("BETA_HARDCORE_URL", false)
+            def activeUrl = publicUrl ?: privateUrl ?: hardcoreUrl
+            if (activeUrl) {
+                buildConfigField "String", "BETA_URL", "\"${activeUrl}\""
+                def appCenterHashKey = publicUrl ? "APP_CENTER_HASH_PUBLIC" : (privateUrl ? "APP_CENTER_HASH_PRIVATE" : "APP_CENTER_HASH_HARDCORE")
+                def versionNum = publicUrl ? "4" : (privateUrl ? "1" : "5")
+                buildConfigField "String", "APP_CENTER_HASH", "\"" + getProps(appCenterHashKey, false) + "\""
+                buildConfigField "int", "VERSION_NUM", versionNum
+            }
+            gradle.taskGraph.whenReady { taskGraph ->
+                if (taskGraph.allTasks.any { it.name.toLowerCase().contains("beta") }) {
+                    if ([publicUrl, privateUrl, hardcoreUrl].count { it && !it.isEmpty() } != 1) {
+                        throw new GradleException(
+                                "Beta build requires EXACTLY ONE URL configuration. " +
+                                        "Please check your env/properties and provide a single one of: " +
+                                        "BETA_PUBLIC_URL, BETA_PRIVATE_URL, or BETA_HARDCORE_URL."
+                        )
+                    }
+                }
+            }
+        }
+        apk {
+            dimension "artifactType"
+            versionCode APP_VERSION_CODE.toInteger() * 10 + 9
+        }
+        bundle {
+            dimension "artifactType"
+            buildConfigField "boolean", "BUNDLE", "true"
+            versionCode APP_VERSION_CODE.toInteger() * 10 + 1
+        }
+        bundleMinApi23 {
+            dimension "artifactType"
+            minSdkVersion 23
+            buildConfigField "boolean", "BUNDLE", "true"
+            versionCode APP_VERSION_CODE.toInteger() * 10 + 2
+        }
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file("config/release.keystore")
+            storePassword RELEASE_STORE_PASSWORD
+            keyAlias RELEASE_KEY_ALIAS
+            keyPassword RELEASE_KEY_PASSWORD
+        }
+
+        release {
+            storeFile file("config/release.keystore")
+            storePassword RELEASE_STORE_PASSWORD
+            keyAlias RELEASE_KEY_ALIAS
+            keyPassword RELEASE_KEY_PASSWORD
+        }
+    }
+    // forky code end
 
     buildTypes {
         debug {
@@ -128,8 +297,9 @@ android {
             minifyEnabled false
             shrinkResources false
             multiDexEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), '../TMessagesProj/proguard-rules.pro', '../TMessagesProj/proguard-rules-beta.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), '../TMessagesProj/proguard-rules.pro' /* forky comment , '../TMessagesProj/proguard-rules-beta.pro' */
             ndk.debugSymbolLevel = 'FULL'
+            /* forky comment
             buildConfigField "String", "BUILD_VERSION_STRING", "\"" + APP_VERSION_NAME + "\""
             buildConfigField "String", "APP_CENTER_HASH", "\"\""
             buildConfigField "String", "BETA_URL", "\"" + getProps("BETA_PRIVATE_URL") + "\""
@@ -138,8 +308,14 @@ android {
             buildConfigField "boolean", "BUNDLE", "false"
             buildConfigField "boolean", "BUILD_HOST_IS_WINDOWS", isWindows
             buildConfigField "int", "VERSION_NUM", "0"
+            */
+            // forky code start
+            debuggable true
+            signingConfig signingConfigs.debug
+            // forky code end
         }
 
+        /* forky comment
         HA_private {
             jniDebuggable false
             minifyEnabled true
@@ -203,6 +379,7 @@ android {
             buildConfigField "boolean", "BUILD_HOST_IS_WINDOWS", isWindows
             buildConfigField "int", "VERSION_NUM", "6"
         }
+        */
 
         release {
             jniDebuggable false
@@ -210,34 +387,118 @@ android {
             shrinkResources false
             multiDexEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), '../TMessagesProj/proguard-rules.pro'
+            /* forky comment
             ndk.debugSymbolLevel = 'FULL'
             buildConfigField "String", "BUILD_VERSION_STRING", "\"" + APP_VERSION_NAME + "\""
             buildConfigField "String", "APP_CENTER_HASH", "\"\""
             buildConfigField "String", "BETA_URL", "\"\""
+            */
             buildConfigField "boolean", "DEBUG_VERSION", "false"
             buildConfigField "boolean", "DEBUG_PRIVATE_VERSION", "false"
+            /* forky comment
             buildConfigField "boolean", "BUNDLE", "false"
             buildConfigField "boolean", "BUILD_HOST_IS_WINDOWS", isWindows
             buildConfigField "int", "VERSION_NUM", "7"
+            */
+            // forky code start
+            debuggable false
+            signingConfig signingConfigs.release
+            // forky code end
+            ndk.debugSymbolLevel = 'NONE' // forky code line
         }
     }
+    // forky code start
+    variantFilter { variant ->
+        def distributionType = variant.flavors.find { it.dimension == "distributionType" }?.name
+        def artifactType = variant.flavors.find { it.dimension == "artifactType" }?.name
+        def isGoogle = distributionType == "google"
+        def isBundle = artifactType.startsWith("bundle")
+        if (isBundle && !isGoogle) {
+            variant.setIgnore(true)
+        } else if (variant.buildType.name != "release" && isBundle) {
+            variant.setIgnore(true)
+        }
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.configureEach { output ->
+            outputFileName = "app.apk"
+        }
+    }
+    buildFeatures {
+        buildConfig = true
+    }
+    // forky code end
 
     namespace 'org.telegram.messenger'
 }
 
+// forky code start
+dependencies {
+    huaweiImplementation 'androidx.fragment:fragment:1.8.9'
+    huaweiImplementation 'com.huawei.hms:push:6.5.0.300'
+    huaweiImplementation 'com.huawei.hms:maps:6.6.0.300'
+    huaweiImplementation 'com.huawei.hms:location:6.4.0.300'
 
-def getProps(String propName) {
+    directImplementation 'androidx.fragment:fragment:1.8.9'
+
+    androidTestAppTestEnvImplementation 'junit:junit:4.13.2'
+    androidTestAppTestEnvImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestAppTestEnvImplementation 'androidx.test:runner:1.5.2'
+    androidTestAppTestEnvImplementation "org.jetbrains.kotlin:kotlin-test:1.9.20"
+    androidTestAppTestEnvImplementation "org.jetbrains.kotlin:kotlin-test-junit:1.9.20"
+    androidTestAppTestEnvImplementation "com.appmattus.fixture:fixture:1.2.0"
+
+    betaImplementation 'androidx.fragment:fragment:1.8.9'
+    betaImplementation "com.microsoft.appcenter:appcenter-distribute:3.3.1"
+    betaImplementation "com.microsoft.appcenter:appcenter-crashes:3.3.1"
+    betaImplementation "com.microsoft.appcenter:appcenter-analytics:3.3.1"
+    betaImplementation platform("com.google.firebase:firebase-bom:32.7.0")
+    betaImplementation "com.google.firebase:firebase-crashlytics:18.6.0"
+}
+// forky code end
+
+def getProps(String propName /* forky code start */ , boolean required = true /* forky code end */) {
+    // forky code start
+    def isCI = System.getenv("CI") != null && !System.getenv("CI").isEmpty()
+    if (isCI) {
+        def ciProp = System.getenv(propName)
+        if (ciProp != null && !ciProp.isEmpty()) {
+            return ciProp
+        }
+        if (required) {
+            throw new GradleException("Missing required CI environment variable: ${propName}")
+        }
+    }
+    if (project.hasProperty(propName)) {
+        return project.property(propName)
+    }
+    // forky code end
     def propsFile = rootProject.file('local.properties')
     if (propsFile.exists()) {
         def props = new Properties()
         props.load(new FileInputStream(propsFile))
-        return props[propName]
+        /* forky comment return */ /* forky code start */ def localProp = /* forky code end */ props[propName]
+        // forky code start
+        if (localProp != null && !localProp.isEmpty()) {
+            return localProp
+        }
+        if (required) {
+            throw new GradleException("Property '${propName}' not found in local.properties")
+        }
+        return ""
+        // forky code end
     } else {
+        // forky code start
+        if (required) {
+            throw new GradleException("local.properties file is missing and not on CI!")
+        }
+        // forky code end
         return "";
     }
 }
 apply plugin: 'com.google.gms.google-services'
 
+/* forky comment
 task checkVisibility {
     doFirst {
         def isPrivateBuild = project.gradle.startParameter.taskNames.find {
@@ -259,3 +520,4 @@ task checkVisibility {
 }
 
 preBuild.dependsOn checkVisibility
+*/

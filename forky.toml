@@ -1,0 +1,4 @@
+upstream-path = ".forky"
+upstream-remote-url = "https://github.com/DrKLO/Telegram"
+upstream-commit = "9fea7264725bbac16e5bd5f18fe22d7c6e8a3117"
+allow-clone = true

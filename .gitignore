@@ -9,7 +9,13 @@ TMessagesProj/jniLibs/
 TMessagesProj/jniRes/
 **/.DS_Store
 TMessagesProj/afat/
-TMessagesProj_App/afat/
-TMessagesProj_AppHockeyApp/afat/
-TMessagesProj_AppStandalone/afat/
-TMessagesProj_AppHuawei/afat/
+# forky comment line TMessagesProj_App/afat/
+# forky comment line TMessagesProj_AppHockeyApp/afat/
+# forky comment line TMessagesProj_AppStandalone/afat/
+# forky comment line TMessagesProj_AppHuawei/afat/
+# forky code start
+.forky
+TMessagesProj/src/androidTestAppTestEnv/kotlin/org/telegram/tgnet/model/generated
+TMessagesProj/src/androidTestAppTestEnv/kotlin/org/telegram/tgnet/test/generated
+TMessagesProj/src/androidTestAppTestEnv/kotlin/not_linked_classes.txt
+# forky code end

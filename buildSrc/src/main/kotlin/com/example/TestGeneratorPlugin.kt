@@ -13,9 +13,9 @@ class TestGeneratorPlugin : Plugin<Project> {
             GenerateSchemeTask::class.java
         ) {
             tlSourcesDir = File(project.rootDir, "TMessagesProj/src/main/java/org/telegram/tgnet")
-            tlSourcesDirectDir = File(project.rootDir, "TMessagesProj_AppStandalone/src/main/java/org/telegram/tgnet")
-            resourcesDir = project.file("tlscheme")
-            outputDir = project.file("src/androidTest/kotlin")
+            tlSourcesDirectDir = File(project.rootDir, /* forky comment "TMessagesProj_AppStandalone/src/main/java/org/telegram/tgnet" */ /* forky code start */ "TMessagesProj/src/direct/java/org/telegram/tgnet" /* forky code end */)
+            resourcesDir = /* forky comment project.file("tlscheme") */ /* forky code start */ File(project.rootDir, "buildSrc/tlscheme") /* forky code end */
+            outputDir = project.file(/* forky comment "src/androidTest/kotlin" */ /* forky code start */ "src/androidTestAppTestEnv/kotlin" /* forky code end */)
         }
 
         project.afterEvaluate {
@@ -23,7 +23,7 @@ class TestGeneratorPlugin : Plugin<Project> {
                 val name = it.name
                 name.contains("preBuild")
             }.configureEach {
-                println("🔗 Hooking generateTests before: ${this.name}")
+                // forky comment line println("🔗 Hooking generateTests before: ${this.name}")
                 dependsOn(generateSchemeTask)
             }
         }
