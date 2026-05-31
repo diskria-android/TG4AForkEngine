@@ -1,5 +1,8 @@
 package org.telegram.ui.Components;
 
+// forky code start
+import org.telegram.messenger.BuildConfig;
+// forky code end
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -151,10 +154,10 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
                 } else if (appUpdate.url != null) {
                     Browser.openUrl(getContext(), appUpdate.url);
                 }
-            } else if (BuildVars.isHuaweiStoreApp()){
-                Browser.openUrl(context, BuildVars.HUAWEI_STORE_URL);
+            /* forky comment } else if (BuildVars.isHuaweiStoreApp()){
+                Browser.openUrl(context, BuildVars.HUAWEI_STORE_URL); */
             } else {
-                Browser.openUrl(context, BuildVars.PLAYSTORE_APP_URL);
+                Browser.openUrl(context, /* forky comment BuildVars.PLAYSTORE_APP_URL */ /* forky code start */ BuildConfig.APP_UPDATE_URL /* forky code end */);
             }
         });
 

@@ -1,6 +1,9 @@
 // forky comment line package org.telegram.messenger;
 package org.telegram.messenger.beta; // forky code line
 
+// forky code start
+import org.telegram.messenger.BuildConfig;
+// forky code end
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -44,7 +47,6 @@ public class ApplicationLoaderImpl extends ApplicationLoader {
     protected String onGetApplicationId() {
         return BuildConfig.APPLICATION_ID;
     }
-    */
 
 
     private String getVersionName(int code) {
@@ -58,6 +60,7 @@ public class ApplicationLoaderImpl extends ApplicationLoader {
             default: return "unknown";
         }
     }
+    */
 
     @Override
     protected void startAppCenterInternal(Activity context) {
@@ -78,7 +81,7 @@ public class ApplicationLoaderImpl extends ApplicationLoader {
 
                 final FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
                 crashlytics.setUserId(userId);
-                crashlytics.setCustomKey("version", getVersionName(org.telegram.messenger.BuildConfig.VERSION_NUM));
+                crashlytics.setCustomKey("version", /* forky comment getVersionName(org.telegram.messenger.BuildConfig.VERSION_NUM) */ /* forky code start */ BuildConfig.BETA_TYPE /* forky code end */);
                 crashlytics.setCustomKey("model", Build.MODEL);
                 crashlytics.setCustomKey("manufacturer", Build.MANUFACTURER);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {

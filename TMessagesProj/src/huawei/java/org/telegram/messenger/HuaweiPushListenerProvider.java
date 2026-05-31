@@ -39,7 +39,7 @@ public class HuaweiPushListenerProvider implements PushListenerController.IPushL
     public void onRequestPushToken() {
         Utilities.globalQueue.postRunnable(() -> {
             try {
-                String token = HmsInstanceId.getInstance(ApplicationLoader.applicationContext).getToken(BuildVars.HUAWEI_APP_ID, "HCM");
+                String token = HmsInstanceId.getInstance(ApplicationLoader.applicationContext).getToken(/* forky comment BuildVars.HUAWEI_APP_ID */ /* forky code start */ BuildConfig.HUAWEI_APP_ID /* forky code end */, "HCM");
                 SharedConfig.pushStringGetTimeEnd = SystemClock.elapsedRealtime();
 
                 if (!TextUtils.isEmpty(token)) {

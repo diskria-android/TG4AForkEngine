@@ -1,5 +1,8 @@
 package org.telegram.ui.Cells;
 
+// forky code start
+import org.telegram.messenger.ApplicationLoader;
+// forky code end
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -114,7 +117,7 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
                 return;
             }
 
-            if (LauncherIconController.isEnabled(icon)) {
+            if (LauncherIconController.isEnabled(/* forky code start */ ApplicationLoader.applicationContext, /* forky code end */ icon)) {
                 return;
             }
 
@@ -132,7 +135,7 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
             smoothScroller.setTargetPosition(position);
             linearLayoutManager.startSmoothScroll(smoothScroller);
 
-            LauncherIconController.setIcon(icon);
+            LauncherIconController.setIcon(/* forky code start */ ApplicationLoader.applicationContext, /* forky code end */ icon);
             holderView.setSelected(true, true);
 
             for (int i = 0; i < getChildCount(); i++) {
@@ -164,7 +167,7 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
 
         for (int i = 0; i < availableIcons.size(); i++) {
             LauncherIconController.LauncherIcon icon = availableIcons.get(i);
-            if (LauncherIconController.isEnabled(icon)) {
+            if (LauncherIconController.isEnabled(/* forky code start */ ApplicationLoader.applicationContext, /* forky code end */ icon)) {
                 linearLayoutManager.scrollToPositionWithOffset(i, AndroidUtilities.dp(16));
                 break;
             }
@@ -288,7 +291,7 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
                 params.rightMargin = 0;
                 titleView.setText(LocaleController.getString(icon.title));
             }
-            setSelected(LauncherIconController.isEnabled(icon), false);
+            setSelected(LauncherIconController.isEnabled(/* forky code start */ ApplicationLoader.applicationContext, /* forky code end */ icon), false);
         }
     }
 

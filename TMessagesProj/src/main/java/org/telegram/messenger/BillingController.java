@@ -192,6 +192,7 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
         billingClient.queryPurchasesAsync(QueryPurchasesParams.newBuilder().setProductType(productType).build(), responseListener);
     }
 
+    /* forky comment
     public boolean startManageSubscription(Context ctx, String productId) {
         try {
             ctx.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("https://play.google.com/store/account/subscriptions?sku=%s&package=%s", productId, ctx.getPackageName()))));
@@ -200,6 +201,7 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
             return false;
         }
     }
+    */
 
     public void addResultListener(String productId, Consumer<BillingResult> listener) {
         resultListeners.put(productId, listener);

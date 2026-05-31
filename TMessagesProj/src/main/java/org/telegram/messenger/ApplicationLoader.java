@@ -180,7 +180,7 @@ public class ApplicationLoader extends Application {
         } catch (Exception e) {
             FileLog.e(e);
         }
-        return new File("/data/data/org.telegram.messenger/files");
+        return new File("/data/data/org.telegram.messenger/files" /* forky code start */ .replace("org.telegram.messenger", BuildConfig.APPLICATION_ID) /* forky code end */);
     }
 
     public static File getFilesDirFixed(String child) {
@@ -351,7 +351,7 @@ public class ApplicationLoader extends Application {
 
         AndroidUtilities.runOnUIThread(ApplicationLoader::startPushService);
 
-        LauncherIconController.tryFixLauncherIconIfNeeded();
+        LauncherIconController.tryFixLauncherIconIfNeeded(/* forky code start */ applicationContext /* forky code end */);
         ProxyRotationController.init();
     }
 

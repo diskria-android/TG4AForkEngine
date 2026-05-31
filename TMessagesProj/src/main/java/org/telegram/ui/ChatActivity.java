@@ -40666,10 +40666,10 @@ public class ChatActivity extends BaseFragment implements
                         };
                         LaunchActivity.instance.checkAppUpdate(true, progressDialogCurrent);
                     }
-                } else if (BuildVars.isHuaweiStoreApp()) {
-                    Browser.openUrl(getContext(), BuildVars.HUAWEI_STORE_URL);
+                /* forky comment } else if (BuildVars.isHuaweiStoreApp()) {
+                    Browser.openUrl(getContext(), BuildVars.HUAWEI_STORE_URL); */
                 } else {
-                    Browser.openUrl(getContext(), BuildVars.PLAYSTORE_APP_URL);
+                    Browser.openUrl(getContext(), /* forky comment BuildVars.PLAYSTORE_APP_URL */ /* forky code start */ BuildConfig.APP_UPDATE_URL /* forky code end */);
                 }
             } else if (type == ChatMessageCell.INSTANT_BUTTON_TYPE_ADD_OPTION) {
                 pollAddOptionModeComplete(cell);

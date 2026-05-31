@@ -1,3 +1,13 @@
+// forky code start
+pluginManagement {
+    repositories {
+        mavenCentral()
+        google()
+    }
+    includeBuild("build-logic")
+    includeBuild("build-logic/test-generator")
+}
+// forky code end
 include ':TMessagesProj'
 /* forky comment
 include ':TMessagesProj_App'
@@ -6,3 +16,8 @@ include ':TMessagesProj_AppHockeyApp'
 include ':TMessagesProj_AppStandalone'
 include ':TMessagesProj_AppTests'
 */
+// forky code start
+project(":TMessagesProj").name = "app"
+include ':feature'
+include ':feature:launcher-icons'
+// forky code end

@@ -1,5 +1,8 @@
 package org.telegram.ui.Stories;
 
+// forky code start
+import org.telegram.messenger.BuildConfig;
+// forky code end
 import static org.telegram.messenger.AndroidUtilities.dp;
 import static org.telegram.messenger.AndroidUtilities.lerp;
 import static org.telegram.messenger.LocaleController.getString;
@@ -4411,10 +4414,10 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                 if (LaunchActivity.instance != null) {
                     LaunchActivity.instance.checkAppUpdate(true, null);
                 }
-            } else if (BuildVars.isHuaweiStoreApp()){
-                Browser.openUrl(getContext(), BuildVars.HUAWEI_STORE_URL);
+            /* forky comment } else if (BuildVars.isHuaweiStoreApp()){
+                Browser.openUrl(getContext(), BuildVars.HUAWEI_STORE_URL); */
             } else {
-                Browser.openUrl(getContext(), BuildVars.PLAYSTORE_APP_URL);
+                Browser.openUrl(getContext(), /* forky comment BuildVars.PLAYSTORE_APP_URL */ /* forky code start */ BuildConfig.APP_UPDATE_URL /* forky code end */);
             }
         });
         linearLayout.addView(textView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));

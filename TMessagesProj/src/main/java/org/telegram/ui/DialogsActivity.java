@@ -109,7 +109,7 @@ import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.FilesMigrationService;
+// forky comment line import org.telegram.messenger.FilesMigrationService;
 import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
@@ -5338,9 +5338,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             showSearch(false, false, false);
         }
 
+        /* forky comment
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             FilesMigrationService.checkBottomSheet(this);
         }
+        */
         actionBar.setDrawBlurBackground(contentView);
 
         rightSlidingDialogContainer = new RightSlidingDialogContainer(context) {
@@ -10213,6 +10215,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 showFiltersHint();
             }
         } else if (requestCode == 4) {
+            /* forky comment
             boolean allGranted = true;
             for (int a = 0; a < grantResults.length; a++) {
                 if (grantResults[a] != PackageManager.PERMISSION_GRANTED) {
@@ -10223,6 +10226,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             if (allGranted && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && FilesMigrationService.filesMigrationBottomSheet != null) {
                 FilesMigrationService.filesMigrationBottomSheet.migrateOldFolder();
             }
+            */
 
         }
     }

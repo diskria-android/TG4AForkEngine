@@ -59,7 +59,7 @@ import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.FilePathDatabase;
-import org.telegram.messenger.FilesMigrationService;
+// forky comment line import org.telegram.messenger.FilesMigrationService;
 import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
@@ -1575,10 +1575,12 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         return path.contains(FileLoader.checkDirectory(mediaDirType).getAbsolutePath());
     }
 
+    /* forky comment
     @RequiresApi(api = Build.VERSION_CODES.R)
     private void migrateOldFolder() {
         FilesMigrationService.checkBottomSheet(this);
     }
+    */
 
     private void clearDatabase(boolean fullReset) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
@@ -2901,6 +2903,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
     @Override
     public void onRequestPermissionsResultFragment(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == 4) {
+            /* forky comment
             boolean allGranted = true;
             for (int a = 0; a < grantResults.length; a++) {
                 if (grantResults[a] != PackageManager.PERMISSION_GRANTED) {
@@ -2911,7 +2914,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             if (allGranted && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && FilesMigrationService.filesMigrationBottomSheet != null) {
                 FilesMigrationService.filesMigrationBottomSheet.migrateOldFolder();
             }
-
+            */
         }
     }
 

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:installLocation="auto">
 
-    <application android:name="org.telegram.messenger.beta.ApplicationLoaderImpl" android:gwpAsanMode="always">
+    <application android:name="${applicationName}" android:gwpAsanMode="always">
         <!-- forky comment
         <service android:name="org.telegram.messenger.GoogleVoiceClientService" android:exported="true"/>
         <activity

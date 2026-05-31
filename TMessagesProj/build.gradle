@@ -1,7 +1,15 @@
+// forky code start
+import com.example.ProductFlavors
+import com.example.ProjectExtKt
+
+// forky code end
 import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 
 // forky comment line apply plugin: 'com.android.library'
 // forky code start
+plugins {
+    id("test-generator") apply(false)
+}
 apply plugin: 'com.android.application'
 if (gradle.startParameter.taskNames.any { it.toLowerCase().contains("beta") }) {
     apply plugin: 'com.google.firebase.crashlytics'
@@ -89,13 +97,15 @@ dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
     // forky code start
     implementation files('libs/libgsaverification-client.aar')
+    implementation project(":feature:launcher-icons")
     // forky code end
 }
 
 // forky comment line def isWindows = String.valueOf(DefaultNativePlatform.currentOperatingSystem.toFamilyName() == OperatingSystemFamily.WINDOWS)
+ProductFlavors.configure(project, true, true) // forky code line
 android {
-    compileSdkVersion 35
-    buildToolsVersion '35.0.0'
+    /* forky comment compileSdkVersion */ /* forky code start */ compileSdk /* forky code end */ 35
+    // forky comment line buildToolsVersion '35.0.0'
     ndkVersion "27.2.12479018"
 
     sourceSets.main.jniLibs.srcDirs = ['./jni/']
@@ -110,6 +120,7 @@ android {
         disable 'MissingTranslation'
         disable 'ExtraTranslation'
         disable 'BlockedPrivateApi'
+        disable 'OldTargetApi' // forky code line
         checkReleaseBuilds false // forky code line
     }
 
@@ -127,8 +138,8 @@ android {
 
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 35
+        /* forky comment minSdkVersion */ /* forky code start */ minSdk /* forky code end */ 21
+        /* forky comment targetSdkVersion */ /* forky code start */ targetSdk /* forky code end */ 35
 
         vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi']
 
@@ -141,7 +152,8 @@ android {
             }
         }
         // forky code start
-        versionName APP_VERSION_NAME
+        applicationId = ProjectExtKt.requireProperty(project, "APP_ID")
+        versionName = APP_VERSION_NAME
 
         ndk {
             abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
@@ -150,126 +162,39 @@ android {
         buildConfigField "String", "BUILD_VERSION_STRING", "\"" + APP_VERSION_NAME + "\""
         buildConfigField "boolean", "BUILD_HOST_IS_WINDOWS", String.valueOf(DefaultNativePlatform.currentOperatingSystem.toFamilyName() == OperatingSystemFamily.WINDOWS)
 
-        buildConfigField "String", "APP_CENTER_HASH", "\"\""
-        buildConfigField "String", "BETA_URL", "\"\""
-        buildConfigField "boolean", "DEBUG_VERSION", "true"
-        buildConfigField "boolean", "DEBUG_PRIVATE_VERSION", "true"
+        buildConfigField "boolean", "DEBUG_VERSION", "false"
+        buildConfigField "boolean", "DEBUG_PRIVATE_VERSION", "false"
         buildConfigField "boolean", "BUNDLE", "false"
-        buildConfigField "int", "VERSION_NUM", "0"
 
-        manifestPlaceholders = [
+        buildConfigField "int", "API_ID", ProjectExtKt.requireProperty(project, "API_ID")
+        buildConfigField "String", "API_HASH", "\"" + ProjectExtKt.requireProperty(project, "API_HASH") + "\""
+
+        buildConfigField "String", "APP_UPDATE_URL", "\"https://telegram.org/android\""
+
+        manifestPlaceholders += [
                 "applicationLabel": "@string/AppName",
 
                 "defaultIcon"     : "@mipmap/ic_launcher",
                 "defaultRoundIcon": "@mipmap/ic_launcher_round",
-
-                "vintageIcon"     : "@mipmap/icon_6_launcher",
-                "vintageRoundIcon": "@mipmap/icon_6_launcher_round",
-
-                "aquaIcon"        : "@mipmap/icon_4_launcher",
-                "aquaRoundIcon"   : "@mipmap/icon_4_launcher_round",
-
-                "premiumIcon"     : "@mipmap/icon_3_launcher",
-                "premiumRoundIcon": "@mipmap/icon_3_launcher_round",
-
-                "turboIcon"       : "@mipmap/icon_5_launcher",
-                "turboRoundIcon"  : "@mipmap/icon_5_launcher_round",
-
-                "noxIcon"         : "@mipmap/icon_2_launcher",
-                "noxRoundIcon"    : "@mipmap/icon_2_launcher_round",
         ]
         // forky code end
     }
 
     // forky code start
-    flavorDimensions "distributionType", "artifactType"
-
     productFlavors {
-        google {
-            dimension "distributionType"
-            buildConfigField "int", "VERSION_NUM", "7"
-            manifestPlaceholders += ["applicationName": "org.telegram.messenger.google.ApplicationLoaderImpl"]
-        }
-        huawei {
-            dimension "distributionType"
-            buildConfigField "int", "VERSION_NUM", "7"
-            manifestPlaceholders += ["applicationName": "org.telegram.messenger.HuaweiApplicationLoader"]
-        }
-        direct {
-            dimension "distributionType"
+        named("direct") {
             applicationIdSuffix ".web"
-            buildConfigField "int", "VERSION_NUM", "6"
-            manifestPlaceholders += [
-                    "applicationName" : "org.telegram.messenger.direct.ApplicationLoaderImpl",
-
-                    "defaultIcon"     : "@mipmap/ic_launcher_sa",
-                    "defaultRoundIcon": "@mipmap/ic_launcher_sa",
-
-                    "vintageIcon"     : "@mipmap/icon_6_launcher_sa",
-                    "vintageRoundIcon": "@mipmap/icon_6_launcher_sa",
-
-                    "aquaIcon"        : "@mipmap/icon_4_launcher_sa",
-                    "aquaRoundIcon"   : "@mipmap/icon_4_launcher_sa",
-
-                    "premiumIcon"     : "@mipmap/icon_3_launcher_sa",
-                    "premiumRoundIcon": "@mipmap/icon_3_launcher_sa",
-
-                    "turboIcon"       : "@mipmap/icon_5_launcher_sa",
-                    "turboRoundIcon"  : "@mipmap/icon_5_launcher_sa",
-
-                    "noxIcon"         : "@mipmap/icon_2_launcher_sa",
-                    "noxRoundIcon"    : "@mipmap/icon_2_launcher_sa",
-            ]
         }
-        appTestEnv {
-            dimension "distributionType"
-            minSdkVersion 26
-            testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-            manifestPlaceholders += ["applicationName": "org.telegram.messenger.apptestenv.ApplicationLoaderImpl"]
-        }
-        beta {
-            dimension "distributionType"
+        named("beta") {
             applicationIdSuffix ".beta"
-            manifestPlaceholders += [
-                    "applicationName": "org.telegram.messenger.beta.ApplicationLoaderImpl",
-                    "applicationLabel": "@string/AppNameBeta",
-            ]
-            def publicUrl = getProps("BETA_PUBLIC_URL", false)
-            def privateUrl = getProps("BETA_PRIVATE_URL", false)
-            def hardcoreUrl = getProps("BETA_HARDCORE_URL", false)
-            def activeUrl = publicUrl ?: privateUrl ?: hardcoreUrl
-            if (activeUrl) {
-                buildConfigField "String", "BETA_URL", "\"${activeUrl}\""
-                def appCenterHashKey = publicUrl ? "APP_CENTER_HASH_PUBLIC" : (privateUrl ? "APP_CENTER_HASH_PRIVATE" : "APP_CENTER_HASH_HARDCORE")
-                def versionNum = publicUrl ? "4" : (privateUrl ? "1" : "5")
-                buildConfigField "String", "APP_CENTER_HASH", "\"" + getProps(appCenterHashKey, false) + "\""
-                buildConfigField "int", "VERSION_NUM", versionNum
-            }
-            gradle.taskGraph.whenReady { taskGraph ->
-                if (taskGraph.allTasks.any { it.name.toLowerCase().contains("beta") }) {
-                    if ([publicUrl, privateUrl, hardcoreUrl].count { it && !it.isEmpty() } != 1) {
-                        throw new GradleException(
-                                "Beta build requires EXACTLY ONE URL configuration. " +
-                                        "Please check your env/properties and provide a single one of: " +
-                                        "BETA_PUBLIC_URL, BETA_PRIVATE_URL, or BETA_HARDCORE_URL."
-                        )
-                    }
-                }
-            }
         }
-        apk {
-            dimension "artifactType"
+        named("afatApk") {
             versionCode APP_VERSION_CODE.toInteger() * 10 + 9
         }
-        bundle {
-            dimension "artifactType"
-            buildConfigField "boolean", "BUNDLE", "true"
+        named("bundle") {
             versionCode APP_VERSION_CODE.toInteger() * 10 + 1
         }
-        bundleMinApi23 {
-            dimension "artifactType"
-            minSdkVersion 23
-            buildConfigField "boolean", "BUNDLE", "true"
+        named("bundleMinApi23") {
             versionCode APP_VERSION_CODE.toInteger() * 10 + 2
         }
     }
@@ -312,6 +237,8 @@ android {
             // forky code start
             debuggable true
             signingConfig signingConfigs.debug
+            buildConfigField "boolean", "DEBUG_VERSION", "true"
+            buildConfigField "boolean", "DEBUG_PRIVATE_VERSION", "true"
             // forky code end
         }
 
@@ -392,10 +319,8 @@ android {
             buildConfigField "String", "BUILD_VERSION_STRING", "\"" + APP_VERSION_NAME + "\""
             buildConfigField "String", "APP_CENTER_HASH", "\"\""
             buildConfigField "String", "BETA_URL", "\"\""
-            */
             buildConfigField "boolean", "DEBUG_VERSION", "false"
             buildConfigField "boolean", "DEBUG_PRIVATE_VERSION", "false"
-            /* forky comment
             buildConfigField "boolean", "BUNDLE", "false"
             buildConfigField "boolean", "BUILD_HOST_IS_WINDOWS", isWindows
             buildConfigField "int", "VERSION_NUM", "7"
@@ -408,18 +333,23 @@ android {
         }
     }
     // forky code start
-    variantFilter { variant ->
-        def distributionType = variant.flavors.find { it.dimension == "distributionType" }?.name
-        def artifactType = variant.flavors.find { it.dimension == "artifactType" }?.name
-        def isGoogle = distributionType == "google"
-        def isBundle = artifactType.startsWith("bundle")
-        if (isBundle && !isGoogle) {
-            variant.setIgnore(true)
-        } else if (variant.buildType.name != "release" && isBundle) {
-            variant.setIgnore(true)
+    androidComponents {
+        beforeVariants(selector().all()) { variant ->
+            def flavors = variant.productFlavors
+
+            def distributionType = flavors.find { it.first == "distributionType" }?.second
+            def outputFormat = flavors.find { it.first == "outputFormat" }?.second
+
+            def isBundle = outputFormat != null && outputFormat.startsWith("bundle")
+            def isGoogle = distributionType == "google"
+            def isRelease = variant.buildType == "release"
+
+            if (isBundle && (!isGoogle || !isRelease)) {
+                variant.enabled = false
+            }
         }
     }
-    applicationVariants.all { variant ->
+    applicationVariants.configureEach { variant ->
         variant.outputs.configureEach { output ->
             outputFileName = "app.apk"
         }
@@ -429,7 +359,7 @@ android {
     }
     // forky code end
 
-    namespace 'org.telegram.messenger'
+    namespace /* forky comment 'org.telegram.messenger' */ /* forky code start */ ProjectExtKt.requireProperty(project, "NAMESPACE") /* forky code end */
 }
 
 // forky code start
@@ -457,45 +387,18 @@ dependencies {
 }
 // forky code end
 
-def getProps(String propName /* forky code start */ , boolean required = true /* forky code end */) {
-    // forky code start
-    def isCI = System.getenv("CI") != null && !System.getenv("CI").isEmpty()
-    if (isCI) {
-        def ciProp = System.getenv(propName)
-        if (ciProp != null && !ciProp.isEmpty()) {
-            return ciProp
-        }
-        if (required) {
-            throw new GradleException("Missing required CI environment variable: ${propName}")
-        }
-    }
-    if (project.hasProperty(propName)) {
-        return project.property(propName)
-    }
-    // forky code end
+/* forky comment
+def getProps(String propName) {
     def propsFile = rootProject.file('local.properties')
     if (propsFile.exists()) {
         def props = new Properties()
         props.load(new FileInputStream(propsFile))
-        /* forky comment return */ /* forky code start */ def localProp = /* forky code end */ props[propName]
-        // forky code start
-        if (localProp != null && !localProp.isEmpty()) {
-            return localProp
-        }
-        if (required) {
-            throw new GradleException("Property '${propName}' not found in local.properties")
-        }
-        return ""
-        // forky code end
+        return props[propName]
     } else {
-        // forky code start
-        if (required) {
-            throw new GradleException("local.properties file is missing and not on CI!")
-        }
-        // forky code end
         return "";
     }
 }
+*/
 apply plugin: 'com.google.gms.google-services'
 
 /* forky comment

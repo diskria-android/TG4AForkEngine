@@ -15,7 +15,9 @@ buildscript {
         classpath "io.github.forky:forky-gradle-plugin:0.1.0" // forky code line
     }
 }
-apply plugin: 'io.github.forky' // forky code line
+/* forky comment
 repositories {
     google()
 }
+*/
+apply plugin: 'io.github.forky' // forky code line

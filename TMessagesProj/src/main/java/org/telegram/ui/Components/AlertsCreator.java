@@ -666,7 +666,7 @@ public class AlertsCreator {
         builder.setMessage(text);
         builder.setPositiveButton(LocaleController.getString(R.string.OK), null);
         if (updateApp) {
-            builder.setNegativeButton(LocaleController.getString(R.string.UpdateApp), (dialog, which) -> Browser.openUrl(context, BuildVars.PLAYSTORE_APP_URL));
+            builder.setNegativeButton(LocaleController.getString(R.string.UpdateApp), (dialog, which) -> Browser.openUrl(context, /* forky comment BuildVars.PLAYSTORE_APP_URL */ /* forky code start */ BuildConfig.APP_UPDATE_URL /* forky code end */));
         }
         return builder.show();
     }
