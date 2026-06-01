@@ -2,7 +2,10 @@ package com.example
 
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.GradleException
+import org.gradle.api.JavaVersion
 import org.gradle.api.Project
+import org.gradle.nativeplatform.OperatingSystemFamily
+import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 
 object ProductFlavors {
     @JvmStatic
@@ -16,6 +19,45 @@ object ProductFlavors {
             ?: throw GradleException("Android plugin is not applied to project '${project.name}'")
 
         androidExtension.apply {
+            compileSdk = 35
+            defaultConfig {
+                minSdk = 21
+                if (setupBuildConfigs) {
+                    buildConfigField(
+                        "String",
+                        "BUILD_VERSION_STRING",
+                        project.requireProperty("APP_VERSION_NAME").quoted()
+                    )
+                    buildConfigField(
+                        "boolean",
+                        "BUILD_HOST_IS_WINDOWS",
+                        (DefaultNativePlatform.getCurrentOperatingSystem()
+                            .toFamilyName() == OperatingSystemFamily.WINDOWS).toString()
+                    )
+                    buildConfigField("boolean", "DEBUG_VERSION", "false")
+                    buildConfigField("boolean", "DEBUG_PRIVATE_VERSION", "false")
+                    buildConfigField("boolean", "BUNDLE", "false")
+                    buildConfigField("int", "API_ID", project.requireProperty("API_ID"))
+                    buildConfigField(
+                        "String",
+                        "API_HASH",
+                        project.requireProperty("API_HASH").quoted()
+                    )
+                    buildConfigField(
+                        "String",
+                        "APP_UPDATE_URL",
+                        "https://telegram.org/android".quoted()
+                    )
+                }
+                if (setupManifestPlaceholders) {
+                    manifestPlaceholders += mapOf(
+                        "applicationLabel" to "@string/AppName",
+                        "defaultIcon" to "@mipmap/ic_launcher",
+                        "defaultRoundIcon" to "@mipmap/ic_launcher_round",
+                    )
+                }
+            }
+
             flavorDimensions += listOf("distributionType", "outputFormat")
             productFlavors {
                 create("google") {
@@ -127,6 +169,24 @@ object ProductFlavors {
                         buildConfigField("boolean", "BUNDLE", "true")
                     }
                 }
+            }
+
+            buildTypes {
+                named("debug") {
+                    if (setupBuildConfigs) {
+                        buildConfigField("boolean", "DEBUG_VERSION", "true")
+                        buildConfigField("boolean", "DEBUG_PRIVATE_VERSION", "true")
+                    }
+                }
+            }
+            if (setupBuildConfigs) {
+                buildFeatures {
+                    buildConfig = true
+                }
+            }
+            compileOptions {
+                sourceCompatibility = JavaVersion.VERSION_21
+                targetCompatibility = JavaVersion.VERSION_21
             }
         }
     }

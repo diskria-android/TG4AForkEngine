@@ -18,6 +18,10 @@ include ':TMessagesProj_AppTests'
 */
 // forky code start
 project(":TMessagesProj").name = "app"
+
+include ':ui'
+include ':ui:recycler-view'
+
 include ':feature'
 include ':feature:launcher-icons'
 // forky code end

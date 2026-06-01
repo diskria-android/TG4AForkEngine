@@ -6,7 +6,6 @@
 **/src/main/assets
 TMessagesProj/.cxx
 TMessagesProj/jni
-TMessagesProj_App/src/main/res
 Tools
 google-services.json
 *.aar

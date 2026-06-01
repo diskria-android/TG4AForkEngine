@@ -15,7 +15,7 @@
  */
 package androidx.recyclerview.widget;
 
-import org.telegram.messenger.FileLog;
+// forky comment line import org.telegram.messenger.FileLog;
 
 import static androidx.recyclerview.widget.ViewInfoStore.InfoRecord.FLAG_APPEAR;
 import static androidx.recyclerview.widget.ViewInfoStore.InfoRecord.FLAG_APPEAR_AND_DISAPPEAR;
@@ -222,7 +222,7 @@ class ViewInfoStore {
             try {
                 record = mLayoutHolderMap.removeAt(index);
             } catch (Exception e) {
-                FileLog.e(e);
+                // forky comment line FileLog.e(e);
             }
             if (record == null) {
                 continue;

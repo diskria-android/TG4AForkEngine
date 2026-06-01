@@ -1,6 +1,6 @@
 package androidx.recyclerview.widget;
 
-import static org.telegram.messenger.AndroidUtilities.dp;
+// forky comment line import static org.telegram.messenger.AndroidUtilities.dp;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

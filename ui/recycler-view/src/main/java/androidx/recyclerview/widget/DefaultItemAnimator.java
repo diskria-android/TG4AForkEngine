@@ -28,7 +28,9 @@ import android.view.animation.Interpolator;
 import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
 
-import org.telegram.messenger.BuildVars;
+// forky comment import org.telegram.messenger.BuildVars;
+
+import org.telegram.messenger.ui.recycler.view.BuildConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +43,7 @@ import java.util.List;
  * @see RecyclerView#setItemAnimator(RecyclerView.ItemAnimator)
  */
 public class DefaultItemAnimator extends SimpleItemAnimator {
-    private static final boolean DEBUG = BuildVars.DEBUG_VERSION;
+    private static final boolean DEBUG = /* forky comment BuildVars.DEBUG_VERSION */ /* forky code start */ BuildConfig.DEBUG_VERSION /* forky code end */;
 
     private static TimeInterpolator sDefaultInterpolator;
     protected Interpolator translationInterpolator;
@@ -737,25 +739,25 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
 
         // animations should be ended by the cancel above.
         //noinspection PointlessBooleanExpression,ConstantConditions
-        if (mRemoveAnimations.remove(item) && BuildVars.DEBUG_VERSION) {
+        if (mRemoveAnimations.remove(item) && /* forky comment BuildVars.DEBUG_VERSION */ /* forky code start */ DEBUG /* forky code end */) {
             throw new IllegalStateException("after animation is cancelled, item should not be in "
                     + "mRemoveAnimations list");
         }
 
         //noinspection PointlessBooleanExpression,ConstantConditions
-        if (mAddAnimations.remove(item) && BuildVars.DEBUG_VERSION) {
+        if (mAddAnimations.remove(item) && /* forky comment BuildVars.DEBUG_VERSION */ /* forky code start */ DEBUG /* forky code end */) {
             throw new IllegalStateException("after animation is cancelled, item should not be in "
                     + "mAddAnimations list");
         }
 
         //noinspection PointlessBooleanExpression,ConstantConditions
-        if (mChangeAnimations.remove(item) && BuildVars.DEBUG_VERSION) {
+        if (mChangeAnimations.remove(item) && /* forky comment BuildVars.DEBUG_VERSION */ /* forky code start */ DEBUG /* forky code end */) {
             throw new IllegalStateException("after animation is cancelled, item should not be in "
                     + "mChangeAnimations list");
         }
 
         //noinspection PointlessBooleanExpression,ConstantConditions
-        if (mMoveAnimations.remove(item) && BuildVars.DEBUG_VERSION) {
+        if (mMoveAnimations.remove(item) && /* forky comment BuildVars.DEBUG_VERSION */ /* forky code start */ DEBUG /* forky code end */) {
             throw new IllegalStateException("after animation is cancelled, item should not be in "
                     + "mMoveAnimations list");
         }

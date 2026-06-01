@@ -21,7 +21,9 @@ import android.util.Log;
 
 import androidx.core.util.Pools;
 
-import org.telegram.messenger.BuildVars;
+// forky comment line import org.telegram.messenger.BuildVars;
+
+import org.telegram.messenger.ui.recycler.view.BuildConfig;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -72,7 +74,7 @@ class AdapterHelper implements OpReorderer.Callback {
 
     private int mExistingUpdateTypes = 0;
 
-    private final ArrayList<String> lastNotifies = BuildVars.DEBUG_VERSION ? new ArrayList<String>() : null;
+    private final ArrayList<String> lastNotifies = /* forky comment BuildVars.DEBUG_VERSION */ /* forky code start */ BuildConfig.DEBUG_VERSION /* forky code end */ ? new ArrayList<String>() : null;
     public void logNotify(String name) {
         if (lastNotifies == null) return;
         while (lastNotifies.size() > 5) lastNotifies.remove(0);
@@ -538,7 +540,7 @@ class AdapterHelper implements OpReorderer.Callback {
         if (itemCount < 1) {
             return false;
         }
-        if (BuildVars.DEBUG_VERSION) {
+        if (/* forky comment BuildVars.DEBUG_VERSION */ /* forky code start */ BuildConfig.DEBUG_VERSION /* forky code end */) {
             logNotify("onItemRangeChanged(" + positionStart + ", " + itemCount + ", " + payload + ")");
         }
         mPendingUpdates.add(obtainUpdateOp(UpdateOp.UPDATE, positionStart, itemCount, payload));
@@ -553,7 +555,7 @@ class AdapterHelper implements OpReorderer.Callback {
         if (itemCount < 1) {
             return false;
         }
-        if (BuildVars.DEBUG_VERSION) {
+        if (/* forky comment BuildVars.DEBUG_VERSION */ /* forky code start */ BuildConfig.DEBUG_VERSION /* forky code end */) {
             logNotify("onItemRangeInserted(" + positionStart + ", " + itemCount + ")");
         }
         mPendingUpdates.add(obtainUpdateOp(UpdateOp.ADD, positionStart, itemCount, null));
@@ -568,7 +570,7 @@ class AdapterHelper implements OpReorderer.Callback {
         if (itemCount < 1) {
             return false;
         }
-        if (BuildVars.DEBUG_VERSION) {
+        if (/* forky comment BuildVars.DEBUG_VERSION */ /* forky code start */ BuildConfig.DEBUG_VERSION /* forky code end */) {
             logNotify("onItemRangeRemoved(" + positionStart + ", " + itemCount + ")");
         }
         mPendingUpdates.add(obtainUpdateOp(UpdateOp.REMOVE, positionStart, itemCount, null));
@@ -586,7 +588,7 @@ class AdapterHelper implements OpReorderer.Callback {
         if (itemCount != 1) {
             throw new IllegalArgumentException("Moving more than 1 item is not supported yet");
         }
-        if (BuildVars.DEBUG_VERSION) {
+        if (/* forky comment BuildVars.DEBUG_VERSION */ /* forky code start */ BuildConfig.DEBUG_VERSION /* forky code end */) {
             logNotify("onItemRangeMoved(" + from + ", " + to + ", " + itemCount + ")");
         }
         mPendingUpdates.add(obtainUpdateOp(UpdateOp.MOVE, from, to, null));

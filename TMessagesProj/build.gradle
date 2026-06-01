@@ -97,6 +97,7 @@ dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
     // forky code start
     implementation files('libs/libgsaverification-client.aar')
+    implementation project(":ui:recycler-view")
     implementation project(":feature:launcher-icons")
     // forky code end
 }
@@ -104,7 +105,7 @@ dependencies {
 // forky comment line def isWindows = String.valueOf(DefaultNativePlatform.currentOperatingSystem.toFamilyName() == OperatingSystemFamily.WINDOWS)
 ProductFlavors.configure(project, true, true) // forky code line
 android {
-    /* forky comment compileSdkVersion */ /* forky code start */ compileSdk /* forky code end */ 35
+    // forky comment line compileSdkVersion 35
     // forky comment line buildToolsVersion '35.0.0'
     ndkVersion "27.2.12479018"
 
@@ -129,16 +130,12 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
         */
-        // forky code start
-        sourceCompatibility JavaVersion.VERSION_21
-        targetCompatibility JavaVersion.VERSION_21
-        // forky code end
         coreLibraryDesugaringEnabled true
     }
 
 
     defaultConfig {
-        /* forky comment minSdkVersion */ /* forky code start */ minSdk /* forky code end */ 21
+        // forky comment line minSdkVersion 21
         /* forky comment targetSdkVersion */ /* forky code start */ targetSdk /* forky code end */ 35
 
         vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi']
@@ -153,30 +150,11 @@ android {
         }
         // forky code start
         applicationId = ProjectExtKt.requireProperty(project, "APP_ID")
-        versionName = APP_VERSION_NAME
+        versionName = ProjectExtKt.requireProperty(project, "APP_VERSION_NAME")
 
         ndk {
             abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
         }
-
-        buildConfigField "String", "BUILD_VERSION_STRING", "\"" + APP_VERSION_NAME + "\""
-        buildConfigField "boolean", "BUILD_HOST_IS_WINDOWS", String.valueOf(DefaultNativePlatform.currentOperatingSystem.toFamilyName() == OperatingSystemFamily.WINDOWS)
-
-        buildConfigField "boolean", "DEBUG_VERSION", "false"
-        buildConfigField "boolean", "DEBUG_PRIVATE_VERSION", "false"
-        buildConfigField "boolean", "BUNDLE", "false"
-
-        buildConfigField "int", "API_ID", ProjectExtKt.requireProperty(project, "API_ID")
-        buildConfigField "String", "API_HASH", "\"" + ProjectExtKt.requireProperty(project, "API_HASH") + "\""
-
-        buildConfigField "String", "APP_UPDATE_URL", "\"https://telegram.org/android\""
-
-        manifestPlaceholders += [
-                "applicationLabel": "@string/AppName",
-
-                "defaultIcon"     : "@mipmap/ic_launcher",
-                "defaultRoundIcon": "@mipmap/ic_launcher_round",
-        ]
         // forky code end
     }
 
@@ -189,29 +167,29 @@ android {
             applicationIdSuffix ".beta"
         }
         named("afatApk") {
-            versionCode APP_VERSION_CODE.toInteger() * 10 + 9
+            versionCode ProjectExtKt.requireProperty(project, "APP_VERSION_CODE").toInteger() * 10 + 9
         }
         named("bundle") {
-            versionCode APP_VERSION_CODE.toInteger() * 10 + 1
+            versionCode ProjectExtKt.requireProperty(project, "APP_VERSION_CODE").toInteger() * 10 + 1
         }
         named("bundleMinApi23") {
-            versionCode APP_VERSION_CODE.toInteger() * 10 + 2
+            versionCode ProjectExtKt.requireProperty(project, "APP_VERSION_CODE").toInteger() * 10 + 2
         }
     }
 
     signingConfigs {
         debug {
             storeFile file("config/release.keystore")
-            storePassword RELEASE_STORE_PASSWORD
-            keyAlias RELEASE_KEY_ALIAS
-            keyPassword RELEASE_KEY_PASSWORD
+            storePassword /* forky comment RELEASE_STORE_PASSWORD */ /* forky code start */ ProjectExtKt.requireProperty(project, "RELEASE_STORE_PASSWORD") /* forky code end */
+            keyAlias /* forky comment RELEASE_KEY_ALIAS */ /* forky code start */ ProjectExtKt.requireProperty(project, "RELEASE_KEY_ALIAS") /* forky code end */
+            keyPassword /* forky comment RELEASE_KEY_PASSWORD */ /* forky code start */ ProjectExtKt.requireProperty(project, "RELEASE_KEY_PASSWORD") /* forky code end */
         }
 
         release {
             storeFile file("config/release.keystore")
-            storePassword RELEASE_STORE_PASSWORD
-            keyAlias RELEASE_KEY_ALIAS
-            keyPassword RELEASE_KEY_PASSWORD
+            storePassword /* forky comment RELEASE_STORE_PASSWORD */ /* forky code start */ ProjectExtKt.requireProperty(project, "RELEASE_STORE_PASSWORD") /* forky code end */
+            keyAlias /* forky comment RELEASE_KEY_ALIAS */ /* forky code start */ ProjectExtKt.requireProperty(project, "RELEASE_KEY_ALIAS") /* forky code end */
+            keyPassword /* forky comment RELEASE_KEY_PASSWORD */ /* forky code start */ ProjectExtKt.requireProperty(project, "RELEASE_KEY_PASSWORD") /* forky code end */
         }
     }
     // forky code end
@@ -237,8 +215,6 @@ android {
             // forky code start
             debuggable true
             signingConfig signingConfigs.debug
-            buildConfigField "boolean", "DEBUG_VERSION", "true"
-            buildConfigField "boolean", "DEBUG_PRIVATE_VERSION", "true"
             // forky code end
         }
 
@@ -353,9 +329,6 @@ android {
         variant.outputs.configureEach { output ->
             outputFileName = "app.apk"
         }
-    }
-    buildFeatures {
-        buildConfig = true
     }
     // forky code end
 

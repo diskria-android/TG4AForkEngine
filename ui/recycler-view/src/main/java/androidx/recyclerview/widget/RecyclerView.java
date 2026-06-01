@@ -59,9 +59,9 @@ import android.widget.EdgeEffect;
 import android.widget.LinearLayout;
 import android.widget.OverScroller;
 
-import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.BuildVars;
-import org.telegram.messenger.FileLog;
+// forky comment line import org.telegram.messenger.AndroidUtilities;
+// forky comment line import org.telegram.messenger.BuildVars;
+// forky comment line import org.telegram.messenger.FileLog;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.IntDef;
@@ -87,6 +87,8 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import androidx.core.widget.EdgeEffectCompat;
 import androidx.customview.view.AbsSavedState;
 import androidx.recyclerview.widget.RecyclerView.ItemAnimator.ItemHolderInfo;
+
+import org.telegram.messenger.ui.recycler.view.BuildConfig;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -4554,8 +4556,10 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
         for (int i = 0; i < childCount; i++) {
             final ViewHolder holder = getChildViewHolderInt(mChildHelper.getUnfilteredChildAt(i));
             if (DEBUG && holder.mPosition == -1 && !holder.isRemoved()) {
+                /* forky comment
                 FileLog.e(new IllegalStateException("view holder cannot have position -1 unless it"
                         + " is removed" + exceptionLabel()));
+                */
             }
             if (!holder.shouldIgnore()) {
                 holder.saveOldPosition();
@@ -5551,7 +5555,7 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
             assertNotInLayoutOrScroll(null);
             mState.mStructureChanged = true;
 
-            if (BuildVars.DEBUG_VERSION) {
+            if (/* forky comment BuildVars.DEBUG_VERSION */ /* forky code start */ BuildConfig.DEBUG_VERSION /* forky code end */) {
                 mAdapterHelper.logNotify("notifyDataSetChanged()");
             }
 
@@ -11424,7 +11428,7 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
             mIsRecyclableCount = recyclable ? mIsRecyclableCount - 1 : mIsRecyclableCount + 1;
             if (mIsRecyclableCount < 0) {
                 mIsRecyclableCount = 0;
-                if (BuildVars.DEBUG_VERSION) {
+                if (/* forky comment BuildVars.DEBUG_VERSION */ /* forky code start */ BuildConfig.DEBUG_VERSION /* forky code end */) {
                     throw new RuntimeException("isRecyclable decremented below 0: "
                             + "unmatched pair of setIsRecyable() calls for " + this);
                 }
@@ -11512,6 +11516,7 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
         return mAdapterHelper.applyPendingUpdatesToPosition(viewHolder.mPosition);
     }
 
+    /* forky comment
     @VisibleForTesting
     void initFastScroller(StateListDrawable verticalThumbDrawable,
             Drawable verticalTrackDrawable, StateListDrawable horizontalThumbDrawable,
@@ -11529,6 +11534,7 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
                 AndroidUtilities.dp(50),
                 0);
     }
+    */
 
     // NestedScrollingChild
 

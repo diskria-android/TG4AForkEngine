@@ -12,7 +12,5 @@ repositories {
 
 ProductFlavors.configure(project)
 android {
-    compileSdk = 35
-
     namespace = project.requireProperty("NAMESPACE") + ".feature.launcher.icons"
 }

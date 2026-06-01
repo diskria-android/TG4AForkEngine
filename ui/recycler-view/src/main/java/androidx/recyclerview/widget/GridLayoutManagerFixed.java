@@ -11,9 +11,9 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.view.View;
 
-import com.google.android.exoplayer2.util.Log;
+// forky comment line import com.google.android.exoplayer2.util.Log;
 
-import org.telegram.ui.Cells.ChatMessageCell;
+// forky comment line import org.telegram.ui.Cells.ChatMessageCell;
 
 import java.util.ArrayList;
 import java.util.Arrays;

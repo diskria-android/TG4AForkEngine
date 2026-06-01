@@ -39,7 +39,7 @@ import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView.OnItemTouchListener;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
-import org.telegram.messenger.AndroidUtilities;
+// forky comment line import org.telegram.messenger.AndroidUtilities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -474,8 +474,8 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration
         mRecyclerView = recyclerView;
         if (recyclerView != null) {
             final Resources resources = recyclerView.getResources();
-            mSwipeEscapeVelocity = AndroidUtilities.dp(120);
-            mMaxSwipeVelocity = AndroidUtilities.dp(800);
+            mSwipeEscapeVelocity = AndroidUtilities.dp(120 /* forky code start */ , recyclerView /* forky code end */);
+            mMaxSwipeVelocity = AndroidUtilities.dp(800 /* forky code start */ , recyclerView /* forky code end */);
             setupCallbacks();
         }
     }
@@ -1917,7 +1917,7 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration
 
         private int getMaxDragScroll(RecyclerView recyclerView) {
             if (mCachedMaxScrollSpeed == -1) {
-                mCachedMaxScrollSpeed = AndroidUtilities.dp(20);
+                mCachedMaxScrollSpeed = AndroidUtilities.dp(20 /* forky code start */ , recyclerView /* forky code end */);
             }
             return mCachedMaxScrollSpeed;
         }

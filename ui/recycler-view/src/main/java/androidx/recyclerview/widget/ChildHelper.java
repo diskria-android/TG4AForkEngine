@@ -20,7 +20,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.telegram.messenger.BuildVars;
+// forky comment line import org.telegram.messenger.BuildVars;
+
+import org.telegram.messenger.ui.recycler.view.BuildConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +39,7 @@ import java.util.List;
  */
 public class ChildHelper {
 
-    private static final boolean DEBUG = false;//BuildVars.DEBUG_VERSION;
+    private static final boolean DEBUG = /* forky comment false */ /* forky code start */ BuildConfig.DEBUG_VERSION /* forky code end */;//BuildVars.DEBUG_VERSION;
 
     private static final String TAG = "ChildrenHelper";
 

@@ -23,7 +23,8 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 
-import org.telegram.messenger.BuildVars;
+// forky comment line import org.telegram.messenger.BuildVars;
+import org.telegram.messenger.ui.recycler.view.BuildConfig;
 
 /**
  * {@link RecyclerView.SmoothScroller} implementation which uses a {@link LinearInterpolator} until
@@ -37,7 +38,7 @@ import org.telegram.messenger.BuildVars;
  */
 public class LinearSmoothScroller extends RecyclerView.SmoothScroller {
 
-    private static final boolean DEBUG = BuildVars.DEBUG_VERSION;
+    private static final boolean DEBUG = /* forky comment BuildVars.DEBUG_VERSION */ /* forky code start */ BuildConfig.DEBUG_VERSION /* forky code end */;
 
     private static final float MILLISECONDS_PER_INCH = 25f;
 
