@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.SEND_SMS" />
     <!-- forky code end -->
 
-    <application android:name="${applicationName}" >
+    <application android:name="${applicationName}">
         <!-- forky comment
         <service
             android:name="org.telegram.messenger.GoogleVoiceClientService"

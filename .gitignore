@@ -15,6 +15,7 @@ TMessagesProj/afat/
 # forky comment line TMessagesProj_AppHuawei/afat/
 # forky code start
 .forky
+.kotlin
 TMessagesProj/src/androidTestAppTestEnv/kotlin/org/telegram/tgnet/model/generated
 TMessagesProj/src/androidTestAppTestEnv/kotlin/org/telegram/tgnet/test/generated
 TMessagesProj/src/androidTestAppTestEnv/kotlin/not_linked_classes.txt
