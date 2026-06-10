@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = project.requireProperty("NAMESPACE") + ".thirdparty.recycler.view"
+    namespace = project.requireProperty("NAMESPACE") + ".third_party.recycler_view"
 }
 
 dependencies {

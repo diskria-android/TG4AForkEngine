@@ -1,5 +1,3 @@
-@file:Suppress("UnstableApiUsage", "OldTargetApi", "ChromeOsAbiSupport")
-
 import io.github.tg4afe.appIcons
 import io.github.tg4afe.drawableRes
 import io.github.tg4afe.extensions.android.getPropertyOrNull
@@ -26,19 +24,6 @@ if (taskNames.any { it.contains("huawei", ignoreCase = true) }) {
 
 android {
     namespace = project.requireProperty("NAMESPACE")
-    ndkVersion = "27.2.12479018"
-
-    sourceSets {
-        named("main") {
-            jniLibs.directories += "jni"
-        }
-    }
-
-    externalNativeBuild {
-        cmake {
-            path = file("jni/CMakeLists.txt")
-        }
-    }
 
     lint {
         disable += setOf(
@@ -74,17 +59,6 @@ android {
             getDefaultProguardFile("proguard-android-optimize.txt"),
             file("proguard-rules.pro")
         )
-
-        externalNativeBuild {
-            cmake {
-                version = "3.10.2"
-                arguments("-DANDROID_STL=c++_static", "-DANDROID_PLATFORM=android-21")
-            }
-        }
-
-        ndk {
-            abiFilters += setOf("arm64-v8a", "armeabi-v7a")
-        }
 
         appIcons {
             register("default") {
@@ -182,11 +156,10 @@ android {
     buildTypes {
         debug {
             isDebuggable = true
-            isJniDebuggable = true
+            isJniDebuggable = false
             isMinifyEnabled = false
             isShrinkResources = false
             signingConfig = signingConfigs.getByName("debug")
-            ndk.debugSymbolLevel = "FULL"
         }
 
         release {
@@ -195,7 +168,6 @@ android {
             isMinifyEnabled = true
             isShrinkResources = false
             signingConfig = signingConfigs.getByName("release")
-            ndk.debugSymbolLevel = "NONE"
         }
     }
 }
@@ -205,25 +177,6 @@ androidComponents {
         val distributionType = variant.productFlavors.toMap()["distributionType"].orEmpty()
         if (distributionType == "appTestEnv") {
             plugins.apply("test-generator")
-        }
-        val externalNativeBuild = variant.externalNativeBuild ?: return@onVariants
-        when (variant.buildType) {
-            "debug" -> {
-                val overrideAbiFilters = project.getPropertyOrNull("DEBUG_ABI_FILTERS").orEmpty()
-                    .split(Regex("""[,;\s]+"""))
-                    .filter { it.isNotBlank() }
-                if (overrideAbiFilters.isNotEmpty()) {
-                    externalNativeBuild.abiFilters = overrideAbiFilters
-                } else {
-                    externalNativeBuild.abiFilters.addAll(setOf("x86", "x86_64"))
-                }
-            }
-
-            "release" -> {
-                if (distributionType == "direct" || distributionType == "beta") {
-                    externalNativeBuild.abiFilters.addAll(setOf("x86", "x86_64"))
-                }
-            }
         }
     }
 }
@@ -338,6 +291,7 @@ dependencies {
 
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
 
+    implementation(project(":native-core"))
     implementation(project(":third-party:recycler-view"))
     implementation(project(":feature:app-icons"))
 }

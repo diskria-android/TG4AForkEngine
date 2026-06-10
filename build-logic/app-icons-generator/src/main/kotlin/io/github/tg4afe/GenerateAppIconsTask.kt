@@ -124,7 +124,7 @@ abstract class GenerateAppIconsTask : DefaultTask() {
     private fun buildEnumClass(className: JPClassName): TypeSpec =
         TypeSpec.enumBuilder(className).apply {
             addModifiers(JPModifier.PUBLIC)
-            val rClassName = ClassName.get("org.telegram.messenger.feature.app.icons", "R")
+            val rClassName = ClassName.get("org.telegram.messenger.feature.app_icons", "R")
             icons.get().forEach { icon ->
                 val argumentsCodeBlock = CodeBlock.of(
                     $$"$S, $T.$L, $T.$L, $T.string.AppIcon$L, $L",

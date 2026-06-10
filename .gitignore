@@ -4,9 +4,9 @@ build/
 obj/
 *.iml
 local.properties
-TMessagesProj/.cxx/
-TMessagesProj/jniLibs/
-TMessagesProj/jniRes/
+# forky comment line TMessagesProj/.cxx/
+# forky comment line TMessagesProj/jniLibs/
+# forky comment line TMessagesProj/jniRes/
 **/.DS_Store
 TMessagesProj/afat/
 # forky comment line TMessagesProj_App/afat/
@@ -16,6 +16,8 @@ TMessagesProj/afat/
 # forky code start
 .forky
 .kotlin
+.cxx
+native-core/prebuilt_libs
 TMessagesProj/src/androidTestAppTestEnv/kotlin/org/telegram/tgnet/model/generated
 TMessagesProj/src/androidTestAppTestEnv/kotlin/org/telegram/tgnet/test/generated
 TMessagesProj/src/androidTestAppTestEnv/kotlin/not_linked_classes.txt

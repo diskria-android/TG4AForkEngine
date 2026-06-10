@@ -16,7 +16,7 @@
 package androidx.recyclerview.widget;
 
 // forky code start
-import org.telegram.messenger.thirdparty.recycler.view.BuildConfig;
+import org.telegram.messenger.third_party.recycler_view.BuildConfig;
 // forky code end
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

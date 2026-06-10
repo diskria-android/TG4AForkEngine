@@ -18,7 +18,7 @@
 package androidx.recyclerview.widget;
 
 // forky code start
-import org.telegram.messenger.thirdparty.recycler.view.BuildConfig;
+import org.telegram.messenger.third_party.recycler_view.BuildConfig;
 // forky code end
 import static androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP_PREFIX;
 import static androidx.core.view.ViewCompat.TYPE_NON_TOUCH;

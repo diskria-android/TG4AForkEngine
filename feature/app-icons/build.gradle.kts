@@ -6,5 +6,5 @@ plugins {
 }
 
 android {
-    namespace = project.requireProperty("NAMESPACE") + ".feature.app.icons"
+    namespace = project.requireProperty("NAMESPACE") + ".feature.app_icons"
 }
