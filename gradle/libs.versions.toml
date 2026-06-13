@@ -1,0 +1,18 @@
+[versions]
+android-gradle-plugin = "9.2.1"
+appgallery-gradle-plugin = "1.9.6.300"
+firebase-crashlytics = "3.0.7"
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
+android-library = { id = "com.android.library", version.ref = "android-gradle-plugin" }
+
+appgallery = { id = "com.huawei.agconnect.agcp", version.ref = "appgallery-gradle-plugin" }
+
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics" }
+
+[libraries]
+android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "android-gradle-plugin" }
+appgallery-gradle-plugin = { group = "com.huawei.agconnect", name = "agcp", version.ref = "appgallery-gradle-plugin" }
+
+[bundles]

@@ -1,7 +1,7 @@
 import io.github.tg4afe.extensions.android.requireProperty
 
 plugins {
-    id("com.android.library")
+    alias(libs.plugins.android.library)
     id("android-conventions")
 }
 

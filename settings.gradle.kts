@@ -2,13 +2,18 @@
 
 pluginManagement {
     repositories {
-        google()
-        gradlePluginPortal()
-        exclusiveContent {
-            forRepository {
-                maven("https://developer.huawei.com/repo") { name = "Huawei" }
+        google {
+            name = "Google"
+            content {
+                includeGroupByRegex("""com\.android.*""")
+                includeGroupByRegex("""com\.google\..*""")
+                includeGroupByRegex("androidx.*")
             }
-            filter {
+        }
+        gradlePluginPortal { name = "Gradle Plugin Portal" }
+        maven("https://developer.huawei.com/repo") {
+            name = "Huawei"
+            content {
                 includeGroupByRegex("""com\.huawei\..*""")
             }
         }
@@ -30,8 +35,8 @@ pluginManagement {
 
 dependencyResolutionManagement {
     repositories {
-        google()
-        mavenCentral()
+        pluginManagement.repositories.find { it.name == "Google" }?.let { add(it) }
+        mavenCentral { name = "Maven Central" }
         pluginManagement.repositories.find { it.name == "Huawei" }?.let { add(it) }
     }
 }
@@ -42,11 +47,11 @@ plugins {
 
 include(":native-core")
 
-include(":TMessagesProj")
-project(":TMessagesProj").name = "app"
-
 include(":third-party")
 include(":third-party:recycler-view")
 
 include(":feature")
 include(":feature:app-icons")
+
+include(":TMessagesProj")
+project(":TMessagesProj").name = "app"

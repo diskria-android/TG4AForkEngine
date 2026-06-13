@@ -1,25 +1,25 @@
+import com.android.build.api.variant.ApplicationVariantBuilder
+import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
+import com.google.gms.googleservices.GoogleServicesTask
+import io.github.tg4afe.AGCPatches
 import io.github.tg4afe.appIcons
 import io.github.tg4afe.drawableRes
+import io.github.tg4afe.extensions.android.getFileLocations
 import io.github.tg4afe.extensions.android.getPropertyOrNull
 import io.github.tg4afe.extensions.android.requireProperty
+import io.github.tg4afe.extensions.capitalized
 import io.github.tg4afe.mipmapRes
 import io.github.tg4afe.register
 
 plugins {
-    id("com.android.application")
+    alias(libs.plugins.android.application)
     id("com.google.gms.google-services")
+    alias(libs.plugins.appgallery)
+    alias(libs.plugins.firebase.crashlytics)
+
     id("android-conventions")
     id("app-icons-generator")
-    id("com.huawei.agconnect") apply false
-    id("com.google.firebase.crashlytics") apply false
     id("test-generator") apply false
-}
-
-val taskNames = gradle.startParameter.taskNames
-if (taskNames.any { it.contains("huawei", ignoreCase = true) }) {
-    plugins.apply("com.huawei.agconnect")
-} else if (taskNames.any { it.contains("beta", ignoreCase = true) }) {
-    plugins.apply("com.google.firebase.crashlytics")
 }
 
 android {
@@ -40,9 +40,9 @@ android {
     signingConfigs {
         create("release") {
             storeFile = file("config/release.keystore")
-            storePassword = project.getPropertyOrNull("RELEASE_STORE_PASSWORD")
+            storePassword = project.getPropertyOrNull("RELEASE_KEYSTORE_PASSWORD")
             keyAlias = project.getPropertyOrNull("RELEASE_KEY_ALIAS")
-            keyPassword = project.getPropertyOrNull("RELEASE_KEY_PASSWORD")
+            keyPassword = project.getPropertyOrNull("RELEASE_KEYSTORE_PASSWORD")
         }
     }
 
@@ -51,13 +51,9 @@ android {
         applicationId = project.requireProperty("APP_ID")
         versionName = project.requireProperty("APP_VERSION_NAME")
 
-        vectorDrawables {
-            useSupportLibrary = true
-        }
-
         proguardFiles += listOf(
             getDefaultProguardFile("proguard-android-optimize.txt"),
-            file("proguard-rules.pro")
+            file("config/proguard-rules.pro"),
         )
 
         appIcons {
@@ -105,6 +101,11 @@ android {
     }
 
     productFlavors {
+        configureEach {
+            configure<CrashlyticsExtension> {
+                mappingFileUploadEnabled = false
+            }
+        }
         named("google") {
             isDefault = true
         }
@@ -139,7 +140,9 @@ android {
         }
         named("beta") {
             applicationIdSuffix = ".beta"
-            proguardFiles += file("proguard-rules-beta.pro")
+            configure<CrashlyticsExtension> {
+                mappingFileUploadEnabled = true
+            }
         }
         named("afatApk") {
             versionCode = project.requireProperty("APP_VERSION_CODE").toInt() * 10 + 9
@@ -155,36 +158,62 @@ android {
 
     buildTypes {
         debug {
-            isDebuggable = true
-            isJniDebuggable = false
-            isMinifyEnabled = false
-            isShrinkResources = false
-            signingConfig = signingConfigs.getByName("debug")
+            configure<CrashlyticsExtension> {
+                mappingFileUploadEnabled = false
+            }
         }
 
         release {
-            isDebuggable = false
-            isJniDebuggable = false
             isMinifyEnabled = true
-            isShrinkResources = false
+            isShrinkResources = true
             signingConfig = signingConfigs.getByName("release")
         }
     }
 }
 
+val variants = mutableMapOf<String, ApplicationVariantBuilder>()
 androidComponents {
+    beforeVariants { variantBuilder ->
+        if (variantBuilder.enable) {
+            variants[variantBuilder.name] = variantBuilder
+        }
+    }
     onVariants { variant ->
+        val taskVariantPart = variant.name.capitalized()
+        tasks.matching { it.name == "process${taskVariantPart}GoogleServices" }.configureEach {
+            val task = this as GoogleServicesTask
+            val fileName = GoogleServicesTask.JSON_FILE_NAME
+
+            val candidateFiles = variant.getFileLocations(fileName).map { file("config/$it") }
+            val existingFile = candidateFiles.firstOrNull { it.exists() }
+                ?: throw GradleException("$fileName not found in $candidateFiles")
+            task.googleServicesJsonFiles.set(listOf(existingFile))
+        }
+
         val distributionType = variant.productFlavors.toMap()["distributionType"].orEmpty()
+        tasks.matching {
+            it.name == "process${taskVariantPart}AGCPlugin"
+        }.configureEach {
+            enabled = distributionType == "huawei"
+        }
+
+        tasks.matching {
+            it.name == "injectCrashlyticsMappingFileId$taskVariantPart" ||
+                it.name == "injectCrashlyticsVersionControlInfo$taskVariantPart"
+        }.configureEach {
+            enabled = distributionType == "beta" && variant.buildType != "debug"
+        }
+
         if (distributionType == "appTestEnv") {
             plugins.apply("test-generator")
         }
     }
 }
 
-configurations {
-    configureEach {
-        exclude("androidx.recyclerview", "recyclerview")
-    }
+AGCPatches.applyAll { variants.getValue(it) }
+
+configurations.configureEach {
+    exclude("androidx.recyclerview", "recyclerview")
 }
 
 dependencies {

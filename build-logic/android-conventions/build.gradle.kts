@@ -13,6 +13,6 @@ gradlePlugin {
 
 dependencies {
     compileOnly(gradleApi())
-    compileOnly("com.android.tools.build:gradle:9.2.1")
+    compileOnly(libs.android.gradle.plugin)
     implementation(project(":build-commons"))
 }

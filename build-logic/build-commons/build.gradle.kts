@@ -13,7 +13,8 @@ gradlePlugin {
 
 dependencies {
     compileOnly(gradleApi())
-    compileOnly("com.android.tools.build:gradle:9.2.1")
+    compileOnly(libs.android.gradle.plugin)
+    compileOnly(libs.appgallery.gradle.plugin)
 
     compileOnly("com.palantir.javapoet:javapoet:0.16.0")
 }

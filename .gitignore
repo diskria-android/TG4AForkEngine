@@ -7,8 +7,8 @@ local.properties
 # forky comment line TMessagesProj/.cxx/
 # forky comment line TMessagesProj/jniLibs/
 # forky comment line TMessagesProj/jniRes/
-**/.DS_Store
-TMessagesProj/afat/
+# forky comment line **/.DS_Store
+# forky comment line TMessagesProj/afat/
 # forky comment line TMessagesProj_App/afat/
 # forky comment line TMessagesProj_AppHockeyApp/afat/
 # forky comment line TMessagesProj_AppStandalone/afat/
@@ -17,7 +17,10 @@ TMessagesProj/afat/
 .forky
 .kotlin
 .cxx
-native-core/prebuilt_libs
+TMessagesProj/config/**/release.keystore
+TMessagesProj/config/**/google-services.json
+TMessagesProj/config/**/agconnect-services.json
+native-core/prebuiltJniLibs
 TMessagesProj/src/androidTestAppTestEnv/kotlin/org/telegram/tgnet/model/generated
 TMessagesProj/src/androidTestAppTestEnv/kotlin/org/telegram/tgnet/test/generated
 TMessagesProj/src/androidTestAppTestEnv/kotlin/not_linked_classes.txt
