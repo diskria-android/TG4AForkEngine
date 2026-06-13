@@ -1,44 +1,9 @@
-@file:Suppress("UnstableApiUsage")
+@file:Suppress("AvoidApplyPluginMethod")
+
+apply(from = "gradle/repositories.settings.gradle.kts")
 
 pluginManagement {
-    repositories {
-        google {
-            name = "Google"
-            content {
-                includeGroupByRegex("""com\.android.*""")
-                includeGroupByRegex("""com\.google\..*""")
-                includeGroupByRegex("androidx.*")
-            }
-        }
-        gradlePluginPortal { name = "Gradle Plugin Portal" }
-        maven("https://developer.huawei.com/repo") {
-            name = "Huawei"
-            content {
-                includeGroupByRegex("""com\.huawei\..*""")
-            }
-        }
-        mavenLocal {
-            content {
-                includeGroup("io.github.forky")
-            }
-        }
-    }
-    resolutionStrategy {
-        eachPlugin {
-            if (requested.id.id == "com.huawei.agconnect") {
-                useModule("com.huawei.agconnect:agcp:${requested.version}")
-            }
-        }
-    }
     includeBuild("build-logic")
-}
-
-dependencyResolutionManagement {
-    repositories {
-        pluginManagement.repositories.find { it.name == "Google" }?.let { add(it) }
-        mavenCentral { name = "Maven Central" }
-        pluginManagement.repositories.find { it.name == "Huawei" }?.let { add(it) }
-    }
 }
 
 plugins {

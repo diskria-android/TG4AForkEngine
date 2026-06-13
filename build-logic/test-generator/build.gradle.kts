@@ -38,7 +38,7 @@ dependencies {
     implementation("com.github.javaparser:javaparser-core:3.25.4")
     implementation("com.squareup:kotlinpoet:1.15.0")
     // forky comment line implementation("com.android.tools.build:gradle:8.6.1")
-    implementation(libs.android.gradle.plugin) // forky code line
+    compileOnly(libs.android.plugin) // forky code line
     // forky code start
     implementation(project(":build-commons"))
     // forky code end

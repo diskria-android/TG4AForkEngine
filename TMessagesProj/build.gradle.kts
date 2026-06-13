@@ -13,9 +13,9 @@ import io.github.tg4afe.register
 
 plugins {
     alias(libs.plugins.android.application)
-    id("com.google.gms.google-services")
-    alias(libs.plugins.appgallery)
+    alias(libs.plugins.google.services)
     alias(libs.plugins.firebase.crashlytics)
+    alias(libs.plugins.appgallery.connect)
 
     id("android-conventions")
     id("app-icons-generator")

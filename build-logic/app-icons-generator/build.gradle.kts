@@ -13,7 +13,7 @@ gradlePlugin {
 
 dependencies {
     compileOnly(gradleApi())
-    compileOnly(libs.android.gradle.plugin)
+    compileOnly(libs.android.plugin)
     implementation("com.commit451:resourcespoet:2.3.1")
     implementation("com.palantir.javapoet:javapoet:0.16.0")
 
