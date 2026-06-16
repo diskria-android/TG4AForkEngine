@@ -10,9 +10,14 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 
-include(":native-core")
+include(":core:utils")
+include(":core:multithreading")
+include(":core:time")
+include(":core:logging")
+include(":core:cpp")
 
 include(":third-party")
+include(":third-party:exoplayer")
 include(":third-party:recycler-view")
 
 include(":feature")

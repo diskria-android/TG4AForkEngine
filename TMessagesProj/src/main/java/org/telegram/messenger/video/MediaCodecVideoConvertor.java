@@ -1391,7 +1391,7 @@ public class MediaCodecVideoConvertor {
     }
 
 
-    public class ConversionCanceledException extends RuntimeException {
+    public class ConversionCanceledException extends /* forky comment RuntimeException */ /* forky code start */ FileLog.IgnoreSentException /* forky code end */ {
 
         public ConversionCanceledException() {
             super("canceled conversion");

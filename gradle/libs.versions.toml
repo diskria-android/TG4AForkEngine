@@ -1,17 +1,17 @@
 [versions]
+forky-plugin = "0.1.0"
 android-plugin = "9.2.1"
 google-services-plugin = "4.4.4"
 firebase-crashlytics-plugin = "3.0.7"
 appgallery-connect-plugin = "1.9.6.300"
-forky-plugin = "0.1.0"
 
 [plugins]
+forky = { id = "io.github.forky", version.ref = "forky-plugin" }
 android-application = { id = "com.android.application", version.ref = "android-plugin" }
 android-library = { id = "com.android.library", version.ref = "android-plugin" }
 google-services = { id = "com.google.gms.google-services", version.ref = "google-services-plugin" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics-plugin" }
 appgallery-connect = { id = "com.huawei.agconnect.agcp", version.ref = "appgallery-connect-plugin" }
-forky = { id = "io.github.forky", version.ref = "forky-plugin" }
 
 [libraries]
 android-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "android-plugin" }

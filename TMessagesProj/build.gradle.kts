@@ -261,14 +261,6 @@ dependencies {
     // CaptchaController
     implementation("com.google.android.recaptcha:recaptcha:18.7.1") // transitive: Play Integrity
 
-    // File Logging
-    implementation("com.google.code.gson:gson:2.11.0")
-
-    // ExoPlayer
-    compileOnly("org.checkerframework:checker-qual:2.5.2")
-    compileOnly("org.checkerframework:checker-compat-qual:2.5.0")
-    implementation("com.google.guava:guava:31.1-android")
-
     // org.telegram.messenger.video
     implementation("com.googlecode.mp4parser:isoparser:1.0.6")
 
@@ -282,9 +274,6 @@ dependencies {
     // Chrome Cast
     implementation("com.google.android.gms:play-services-cast-framework:21.4.0")
     implementation("org.nanohttpd:nanohttpd:2.3.1")
-    constraints {
-        implementation("androidx.mediarouter:mediarouter:1.7.0")
-    }
 
     // MarkdownParser
     implementation("io.noties.markwon:core:4.6.2")
@@ -300,6 +289,7 @@ dependencies {
     huaweiImplementation("com.huawei.hms:push:6.5.0.300")
     huaweiImplementation("com.huawei.hms:maps:6.6.0.300")
     huaweiImplementation("com.huawei.hms:location:6.4.0.300")
+    huaweiCompileOnly("org.bouncycastle:bcprov-jdk18on:1.84")
 
     // [Beta Only] In-App Updates
     betaImplementation("com.microsoft.appcenter:appcenter-distribute:3.3.1")
@@ -320,7 +310,14 @@ dependencies {
 
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
 
-    implementation(project(":native-core"))
+    implementation(project(":core:utils"))
+    implementation(project(":core:multithreading"))
+    implementation(project(":core:time"))
+    implementation(project(":core:logging"))
+    implementation(project(":core:cpp"))
+
+    implementation(project(":third-party:exoplayer"))
     implementation(project(":third-party:recycler-view"))
+
     implementation(project(":feature:app-icons"))
 }

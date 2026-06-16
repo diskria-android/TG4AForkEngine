@@ -20,7 +20,7 @@ local.properties
 TMessagesProj/config/**/release.keystore
 TMessagesProj/config/**/google-services.json
 TMessagesProj/config/**/agconnect-services.json
-native-core/prebuiltJniLibs
+core/native/prebuiltJniLibs
 TMessagesProj/src/androidTestAppTestEnv/kotlin/org/telegram/tgnet/model/generated
 TMessagesProj/src/androidTestAppTestEnv/kotlin/org/telegram/tgnet/test/generated
 TMessagesProj/src/androidTestAppTestEnv/kotlin/not_linked_classes.txt

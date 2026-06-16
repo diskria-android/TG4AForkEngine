@@ -64,7 +64,7 @@ public class DispatchQueue extends Thread {
             syncLatch.await();
             handler.removeCallbacks(runnable);
         } catch (Exception e) {
-            FileLog.e(e, false);
+            // forky comment line FileLog.e(e, false);
         }
     }
 
@@ -75,7 +75,7 @@ public class DispatchQueue extends Thread {
                 handler.removeCallbacks(runnables[i]);
             }
         } catch (Exception e) {
-            FileLog.e(e, false);
+            // forky comment line FileLog.e(e, false);
         }
     }
 
@@ -88,7 +88,7 @@ public class DispatchQueue extends Thread {
         try {
             syncLatch.await();
         } catch (Exception e) {
-            FileLog.e(e, false);
+            // forky comment line FileLog.e(e, false);
         }
         return handler.postAtFrontOfQueue(runnable);
     }
@@ -97,7 +97,7 @@ public class DispatchQueue extends Thread {
         try {
             syncLatch.await();
         } catch (Exception e) {
-            FileLog.e(e, false);
+            // forky comment line FileLog.e(e, false);
         }
         if (delay <= 0) {
             return handler.post(runnable);
@@ -111,7 +111,7 @@ public class DispatchQueue extends Thread {
             syncLatch.await();
             handler.removeCallbacksAndMessages(null);
         } catch (Exception e) {
-            FileLog.e(e, false);
+            // forky comment line FileLog.e(e, false);
         }
     }
 

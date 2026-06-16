@@ -1,5 +1,7 @@
 @file:Suppress("UnstableApiUsage")
 
+import org.gradle.api.artifacts.dsl.RepositoryHandler
+import org.gradle.api.initialization.Settings
 import org.gradle.kotlin.dsl.maven
 
 fun Settings.configurePluginRepositories() {

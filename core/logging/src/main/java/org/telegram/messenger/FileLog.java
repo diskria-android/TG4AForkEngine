@@ -8,6 +8,10 @@
 
 package org.telegram.messenger;
 
+// forky code start
+import org.telegram.messenger.core.logging.BuildConfig;
+import androidx.core.util.Supplier;
+// forky code end
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.os.Debug;
@@ -28,12 +32,13 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 import org.telegram.messenger.time.FastDateFormat;
+/* forky comment
 import org.telegram.messenger.video.MediaCodecVideoConvertor;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Components.AnimatedFileDrawable;
 import org.telegram.ui.LaunchActivity;
-
+*/
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -46,6 +51,11 @@ import java.util.Locale;
 import java.util.Map;
 
 public class FileLog {
+
+    // forky code start
+    public static boolean LOGS_ENABLED = false;
+    // forky code end
+
     private OutputStreamWriter streamWriter = null;
     private FastDateFormat dateFormat = null;
     private FastDateFormat fileDateFormat = null;
@@ -78,13 +88,14 @@ public class FileLog {
     }
 
     public FileLog() {
-        if (!BuildVars.LOGS_ENABLED) {
+        if (!/* forky comment BuildVars. */ LOGS_ENABLED) {
             return;
         }
         init();
     }
 
 
+    /* forky comment
     private static Gson gson;
     private static ExclusionStrategy exclusionStrategy;
     private static HashSet<String> excludeRequests;
@@ -293,7 +304,7 @@ public class FileLog {
             return jsonObj;
         }
     }
-
+    */
 
     public void init() {
         if (initied) {
@@ -327,7 +338,7 @@ public class FileLog {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (BuildVars.DEBUG_VERSION) {
+        if (/* forky comment BuildVars.DEBUG_VERSION */ /* forky code start */ BuildConfig.DEBUG_VERSION /* forky code end */) {
             new ANRDetector(this::dumpANR);
         }
         initied = true;
@@ -338,7 +349,7 @@ public class FileLog {
     }
 
     public static String getNetworkLogPath() {
-        if (!BuildVars.LOGS_ENABLED) {
+        if (!/* forky comment BuildVars. */ LOGS_ENABLED) {
             return "";
         }
         try {
@@ -355,7 +366,7 @@ public class FileLog {
     }
 
     public static String getTonlibLogPath() {
-        if (!BuildVars.LOGS_ENABLED) {
+        if (!/* forky comment BuildVars. */ LOGS_ENABLED) {
             return "";
         }
         try {
@@ -372,7 +383,7 @@ public class FileLog {
     }
 
     public static void e(final String message, final Throwable exception) {
-        if (!BuildVars.LOGS_ENABLED) {
+        if (!/* forky comment BuildVars. */ LOGS_ENABLED) {
             return;
         }
         ensureInitied();
@@ -395,7 +406,7 @@ public class FileLog {
     }
 
     public static void e(final String message) {
-        if (!BuildVars.LOGS_ENABLED) {
+        if (!/* forky comment BuildVars. */ LOGS_ENABLED) {
             return;
         }
         ensureInitied();
@@ -417,9 +428,10 @@ public class FileLog {
     }
 
     public static void e(final Throwable e, boolean logToAppCenter) {
-        if (!BuildVars.LOGS_ENABLED) {
+        if (!/* forky comment BuildVars. */ LOGS_ENABLED) {
             return;
         }
+        /* forky comment
         if (BuildVars.DEBUG_VERSION && needSent(e) && logToAppCenter) {
             AndroidUtilities.appCenterLog(e);
         }
@@ -438,6 +450,7 @@ public class FileLog {
                 }
             }
         }
+        */
         ensureInitied();
         e.printStackTrace();
         if (getInstance().streamWriter != null) {
@@ -501,15 +514,17 @@ public class FileLog {
     }
 
     public static void fatal(final Throwable e, boolean logToAppCenter) {
-        if (!BuildVars.LOGS_ENABLED) {
+        if (!/* forky comment BuildVars. */ LOGS_ENABLED) {
             return;
         }
         if (e instanceof OutOfMemoryError) {
             getInstance().dumpMemory(false);
         }
+        /* forky comment
         if (logToAppCenter && BuildVars.DEBUG_VERSION && needSent(e)) {
             AndroidUtilities.appCenterLog(e);
         }
+        */
         ensureInitied();
         e.printStackTrace();
         if (getInstance().streamWriter != null) {
@@ -533,27 +548,27 @@ public class FileLog {
                     e1.printStackTrace();
                 }
 
-                if (BuildVars.DEBUG_PRIVATE_VERSION) {
+                if (/* forky comment BuildVars.DEBUG_PRIVATE_VERSION */ /* forky code start */ BuildConfig.DEBUG_PRIVATE_VERSION /* forky code end */) {
                     System.exit(2);
                 }
             });
         } else {
             e.printStackTrace();
-            if (BuildVars.DEBUG_PRIVATE_VERSION) {
+            if (/* forky comment BuildVars.DEBUG_PRIVATE_VERSION */ /* forky code start */ BuildConfig.DEBUG_PRIVATE_VERSION /* forky code end */) {
                 System.exit(2);
             }
         }
     }
 
     private static boolean needSent(Throwable e) {
-        if (e instanceof InterruptedException || e instanceof MediaCodecVideoConvertor.ConversionCanceledException || e instanceof IgnoreSentException) {
+        if (e instanceof InterruptedException /* forky comment || e instanceof MediaCodecVideoConvertor.ConversionCanceledException */ || e instanceof IgnoreSentException) {
             return false;
         }
         return true;
     }
 
     public static void d(final String message) {
-        if (!BuildVars.LOGS_ENABLED) {
+        if (!/* forky comment BuildVars. */ LOGS_ENABLED) {
             return;
         }
         ensureInitied();
@@ -565,16 +580,18 @@ public class FileLog {
                     getInstance().streamWriter.flush();
                 } catch (Exception e) {
                     e.printStackTrace();
+                    /* forky comment
                     if (AndroidUtilities.isENOSPC(e)) {
                         LaunchActivity.checkFreeDiscSpaceStatic(1);
                     }
+                    */
                 }
             });
         }
     }
 
     public static void w(final String message) {
-        if (!BuildVars.LOGS_ENABLED) {
+        if (!/* forky comment BuildVars. */ LOGS_ENABLED) {
             return;
         }
         ensureInitied();
@@ -615,7 +632,7 @@ public class FileLog {
         }
     }
 
-    public static class IgnoreSentException extends Exception{
+    public static class IgnoreSentException extends /* forky comment Exception */ /* forky code start */ RuntimeException /* forky code end */ {
 
         public IgnoreSentException(String e) {
             super(e);
