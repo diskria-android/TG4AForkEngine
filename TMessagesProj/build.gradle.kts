@@ -224,9 +224,6 @@ dependencies {
     implementation("androidx.sharetarget:sharetarget:1.2.0")
     implementation("androidx.fragment:fragment:1.8.9")
 
-    compileOnly("org.checkerframework:checker-qual:2.5.2")
-    compileOnly("org.checkerframework:checker-compat-qual:2.5.0")
-
     // Photo Editor/Processing & QR Scan
     implementation("androidx.exifinterface:exifinterface:1.3.6")
     implementation("com.google.android.gms:play-services-mlkit-subject-segmentation:16.0.0-beta1")

@@ -10,7 +10,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import org.checkerframework.checker.guieffect.qual.UI;
+// forky comment line import org.checkerframework.checker.guieffect.qual.UI;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;

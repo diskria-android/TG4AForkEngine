@@ -21,7 +21,7 @@ import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.widget.FrameLayout;
 
-import org.checkerframework.checker.units.qual.A;
+// forky comment line import org.checkerframework.checker.units.qual.A;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;

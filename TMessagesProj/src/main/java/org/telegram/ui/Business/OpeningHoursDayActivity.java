@@ -9,7 +9,7 @@ import android.widget.FrameLayout;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import org.checkerframework.checker.guieffect.qual.UI;
+// forky comment line import org.checkerframework.checker.guieffect.qual.UI;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
