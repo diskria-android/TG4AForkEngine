@@ -2,7 +2,7 @@ package org.webrtc;
 
 import android.view.OrientationEventListener;
 
-import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger /* forky code start */ .third_party.webrtc /* forky code end */ .ApplicationLoader;
 
 public class OrientationHelper {
 
@@ -30,7 +30,7 @@ public class OrientationHelper {
     }
 
     public OrientationHelper() {
-        orientationEventListener = new OrientationEventListener(ApplicationLoader.applicationContext) {
+        orientationEventListener = new OrientationEventListener(ApplicationLoader.applicationContext /* forky code start */ () /* forky code end */) {
             @Override
             public void onOrientationChanged(int orientation) {
                 if (orientationEventListener == null || orientation == ORIENTATION_UNKNOWN) {

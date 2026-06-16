@@ -10,6 +10,9 @@
 
 package org.webrtc.voiceengine;
 
+// forky code start
+import org.telegram.messenger.third_party.webrtc.VideoCapturerDevice;
+// forky code end
 import android.annotation.TargetApi;
 import android.media.AudioAttributes;
 import android.media.AudioFormat;
@@ -26,7 +29,7 @@ import java.nio.ByteOrder;
 import java.util.Arrays;
 
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.voip.VideoCapturerDevice;
+// forky comment line import org.telegram.messenger.voip.VideoCapturerDevice;
 import org.webrtc.Logging;
 import org.webrtc.ThreadUtils;
 

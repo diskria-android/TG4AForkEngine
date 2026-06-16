@@ -1,6 +1,6 @@
 package org.telegram;
 
-import org.telegram.messenger.FileLog;
+// forky comment line import org.telegram.messenger.FileLog;
 
 import java.util.Comparator;
 import java.util.concurrent.CountDownLatch;
@@ -32,7 +32,7 @@ public class DispatchQueuePriority {
                 try {
                     latch.await();
                 } catch (InterruptedException e) {
-                    FileLog.e(e);
+                    // forky comment line FileLog.e(e);
                 }
             }
         }

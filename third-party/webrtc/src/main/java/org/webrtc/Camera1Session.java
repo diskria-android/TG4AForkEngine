@@ -10,6 +10,9 @@
 
 package org.webrtc;
 
+// forky code start
+import org.telegram.messenger.third_party.webrtc.LivePlayer;
+// forky code end
 import android.content.Context;
 import android.hardware.Camera;
 import android.os.Handler;
@@ -19,7 +22,8 @@ import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import org.telegram.ui.Stories.LivePlayer;
+// forky comment line import org.telegram.ui.Stories.LivePlayer;
+
 import org.webrtc.CameraEnumerationAndroid.CaptureFormat;
 
 @SuppressWarnings("deprecation")
@@ -333,7 +337,7 @@ class Camera1Session implements CameraSession {
   }
 
   private int getFrameOrientation() {
-    int rotation = LivePlayer.recording != null ? 0 : orientationHelper.getOrientation();
+    int rotation = LivePlayer.recording /* forky code start */ () /* forky code end */ != null ? 0 : orientationHelper.getOrientation();
     OrientationHelper.cameraOrientation = rotation;
     if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
       rotation = 360 - rotation;

@@ -12,10 +12,11 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.LiteMode;
-import org.telegram.messenger.SharedConfig;
-import org.telegram.messenger.voip.VoIPService;
+import org.telegram.messenger /* forky code start */ .third_party.webrtc /* forky code end */ .AndroidUtilities;
+import org.telegram.messenger /* forky code start */ .third_party.webrtc /* forky code end */ .LiteMode;
+// forky comment line import org.telegram.messenger.SharedConfig;
+import org.telegram.messenger.third_party.webrtc.VoIPVideoSink;
+// forky comment line import org.telegram.messenger.voip.VoIPService;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -512,8 +513,8 @@ public class TextureViewRenderer extends TextureView
 
     @Override
     public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
-        if (parentSink instanceof VoIPService.ProxyVideoSink) {
-            VoIPService.ProxyVideoSink proxyVideoSink = (VoIPService.ProxyVideoSink) parentSink;
+        if (parentSink instanceof /* forky comment VoIPService.ProxyVideoSink */ /* forky code start */ VoIPVideoSink /* forky code end */) {
+            /* forky comment VoIPService.ProxyVideoSink */ /* forky code start */ VoIPVideoSink /* forky code end */ proxyVideoSink = (/* forky comment VoIPService.ProxyVideoSink */ /* forky code start */ VoIPVideoSink /* forky code end */) parentSink;
             proxyVideoSink.removeTarget(this);
             proxyVideoSink.removeBackground(this);
         }

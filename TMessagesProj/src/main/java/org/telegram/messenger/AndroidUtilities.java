@@ -157,8 +157,10 @@ import com.google.android.gms.tasks.Task;
 
 import org.telegram.PhoneFormat.PhoneFormat;
 import org.telegram.messenger.browser.Browser;
+import org.telegram.messenger.third_party.webrtc.WebRTCBridge;
 import org.telegram.messenger.utils.CustomHtml;
 import org.telegram.messenger.utils.DebugRecordingCanvas;
+import org.telegram.messenger.voip.VideoCapturerDevice;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
@@ -192,6 +194,7 @@ import org.telegram.ui.Components.UndoView;
 import org.telegram.ui.Components.spoilers.SpoilersTextView;
 import org.telegram.ui.DebugRecordingCanvasReplayFragment;
 import org.telegram.ui.LaunchActivity;
+import org.telegram.ui.Stories.LivePlayer;
 import org.telegram.ui.Stories.PeerStoriesView;
 import org.telegram.ui.Stories.StoryMediaAreasView;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
@@ -254,13 +257,28 @@ public class AndroidUtilities {
     static {
         RecyclerViewBridge.dp = AndroidUtilities::dp;
         RecyclerViewBridge.runOnUIThread = runnable -> {
-            runOnUIThread(runnable);
+            AndroidUtilities.runOnUIThread(runnable);
             return Unit.INSTANCE;
         };
         ExoplayerBridge.formatFileSize = AndroidUtilities::formatFileSize;
         CoreLoggingBridge.getLogsDir = AndroidUtilities::getLogsDir;
+        WebRTCBridge.runOnUIThread = runnable -> {
+            AndroidUtilities.runOnUIThread(runnable);
+            return Unit.INSTANCE;
+        };
+        WebRTCBridge.cancelRunOnUIThread = runnable -> {
+            AndroidUtilities.cancelRunOnUIThread(runnable);
+            return Unit.INSTANCE;
+        };
+        WebRTCBridge.LiteMode.FLAG_CALLS_ANIMATIONS = () -> LiteMode.FLAG_CALLS_ANIMATIONS;
+        WebRTCBridge.LiteMode.isLiteModeFlagEnabled = LiteMode::isEnabled;
+        WebRTCBridge.ApplicationLoader.applicationContext = () -> ApplicationLoader.applicationContext;
+        WebRTCBridge.LivePlayer.recording = () -> LivePlayer.recording;
+        WebRTCBridge.SharedConfig.disableVoiceAudioEffects = () -> SharedConfig.disableVoiceAudioEffects;
+        WebRTCBridge.VideoCapturerDevice.getMediaProjection = VideoCapturerDevice::getMediaProjection;
     }
     // forky code end
+
     public final static int LIGHT_STATUS_BAR_OVERLAY = 0x0f000000, DARK_STATUS_BAR_OVERLAY = 0x33000000;
 
     public final static int REPLACING_TAG_TYPE_LINK = 0;

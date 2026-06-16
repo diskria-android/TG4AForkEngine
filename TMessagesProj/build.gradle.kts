@@ -317,6 +317,7 @@ dependencies {
     implementation(project(":core:cpp"))
 
     implementation(project(":third-party:exoplayer"))
+    implementation(project(":third-party:webrtc"))
     implementation(project(":third-party:recycler-view"))
 
     implementation(project(":feature:app-icons"))

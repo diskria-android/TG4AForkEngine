@@ -18,6 +18,7 @@ include(":core:cpp")
 
 include(":third-party")
 include(":third-party:exoplayer")
+include(":third-party:webrtc")
 include(":third-party:recycler-view")
 
 include(":feature")

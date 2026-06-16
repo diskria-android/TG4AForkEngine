@@ -117,6 +117,7 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.XiaomiUtilities;
+import org.telegram.messenger.third_party.webrtc.VoIPVideoSink;
 import org.telegram.messenger.utils.tlutils.TlUtils;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.SerializedData;
@@ -681,7 +682,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 		}
 	}
 
-	public static class ProxyVideoSink implements VideoSink {
+	public static class ProxyVideoSink implements VideoSink /* forky code start */ , VoIPVideoSink /* forky code end */ {
 		private VideoSink target;
 		private VideoSink background;
 

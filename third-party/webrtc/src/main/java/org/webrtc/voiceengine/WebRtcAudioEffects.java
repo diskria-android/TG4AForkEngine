@@ -10,6 +10,9 @@
 
 package org.webrtc.voiceengine;
 
+// forky code start
+import org.telegram.messenger.third_party.webrtc.SharedConfig;
+// forky code end
 import android.media.audiofx.AcousticEchoCanceler;
 import android.media.audiofx.AudioEffect;
 import android.media.audiofx.AudioEffect.Descriptor;
@@ -19,7 +22,7 @@ import androidx.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-import org.telegram.messenger.SharedConfig;
+// forky comment line import org.telegram.messenger.SharedConfig;
 import org.webrtc.Logging;
 
 // This class wraps control of three different platform effects. Supported
@@ -226,7 +229,7 @@ public class WebRtcAudioEffects {
       aec = AcousticEchoCanceler.create(audioSession);
       if (aec != null) {
         boolean enabled = aec.getEnabled();
-        boolean enable = shouldEnableAec && canUseAcousticEchoCanceler() && !SharedConfig.disableVoiceAudioEffects;
+        boolean enable = shouldEnableAec && canUseAcousticEchoCanceler() && !SharedConfig.disableVoiceAudioEffects /* forky code start */ () /* forky code end */;
         if (aec.setEnabled(enable) != AudioEffect.SUCCESS) {
           Logging.e(TAG, "Failed to set the AcousticEchoCanceler state");
         }
@@ -244,7 +247,7 @@ public class WebRtcAudioEffects {
       ns = NoiseSuppressor.create(audioSession);
       if (ns != null) {
         boolean enabled = ns.getEnabled();
-        boolean enable = shouldEnableNs && canUseNoiseSuppressor() && !SharedConfig.disableVoiceAudioEffects;
+        boolean enable = shouldEnableNs && canUseNoiseSuppressor() && !SharedConfig.disableVoiceAudioEffects /* forky code start */ () /* forky code end */;
         if (ns.setEnabled(enable) != AudioEffect.SUCCESS) {
           Logging.e(TAG, "Failed to set the NoiseSuppressor state");
         }
