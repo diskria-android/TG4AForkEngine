@@ -62,9 +62,9 @@ import android.widget.EdgeEffect;
 import android.widget.LinearLayout;
 import android.widget.OverScroller;
 
-// forky comment line import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger /* forky code start */ .third_party.recycler_view /* forky code end */ .AndroidUtilities;
 // forky comment line import org.telegram.messenger.BuildVars;
-// forky comment line import org.telegram.messenger.FileLog;
+import org.telegram.messenger.FileLog;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.IntDef;
@@ -4557,10 +4557,8 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
         for (int i = 0; i < childCount; i++) {
             final ViewHolder holder = getChildViewHolderInt(mChildHelper.getUnfilteredChildAt(i));
             if (DEBUG && holder.mPosition == -1 && !holder.isRemoved()) {
-                /* forky comment
                 FileLog.e(new IllegalStateException("view holder cannot have position -1 unless it"
                         + " is removed" + exceptionLabel()));
-                */
             }
             if (!holder.shouldIgnore()) {
                 holder.saveOldPosition();
@@ -11517,7 +11515,6 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
         return mAdapterHelper.applyPendingUpdatesToPosition(viewHolder.mPosition);
     }
 
-    /* forky comment
     @VisibleForTesting
     void initFastScroller(StateListDrawable verticalThumbDrawable,
             Drawable verticalTrackDrawable, StateListDrawable horizontalThumbDrawable,
@@ -11535,7 +11532,6 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
                 AndroidUtilities.dp(50),
                 0);
     }
-    */
 
     // NestedScrollingChild
 

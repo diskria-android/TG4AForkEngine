@@ -1,5 +1,8 @@
 package org.telegram.ui.Stories.recorder;
 
+// forky code start
+import io.github.tg4afe.Floats;
+// forky code end
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -15,7 +18,7 @@ import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
 
-import com.google.common.primitives.Floats;
+// forky comment line import com.google.common.primitives.Floats;
 import com.google.zxing.common.detector.MathUtils;
 
 import org.telegram.messenger.AndroidUtilities;

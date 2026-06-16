@@ -1,5 +1,8 @@
 package org.telegram.ui.web;
 
+// forky code start
+import androidx.annotation.Nullable;
+// forky code end
 import static org.telegram.messenger.AndroidUtilities.dp;
 import static org.telegram.messenger.AndroidUtilities.readRes;
 import static org.telegram.messenger.LocaleController.getString;
@@ -27,7 +30,7 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.Keep;
 
-import com.google.common.collect.Lists;
+// forky comment line import com.google.common.collect.Lists;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -62,7 +65,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Nullable;
+// forky comment line import javax.annotation.Nullable;
 
 public class WebInstantView {
 

@@ -17,7 +17,6 @@ package com.google.android.exoplayer2.upstream;
 
 import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 import com.google.android.exoplayer2.C;
@@ -31,7 +30,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
-import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger /* forky code start */ .third_party.exoplayer /* forky code end */ .AndroidUtilities;
 import org.telegram.messenger.FileLog;
 
 import java.util.HashMap;

@@ -1,12 +1,15 @@
 package org.telegram.messenger.voip;
 
+// forky code start
+import androidx.annotation.Nullable;
+// forky code end
 import org.telegram.messenger.MediaDataController;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 
 import java.util.ArrayList;
 
-import javax.annotation.Nullable;
+// forky comment line import javax.annotation.Nullable;
 
 import me.vkryl.core.BitwiseUtils;
 

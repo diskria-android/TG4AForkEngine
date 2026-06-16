@@ -12,4 +12,6 @@ android {
 dependencies {
     implementation("androidx.core:core:1.16.0")
     implementation("androidx.biometric:biometric:1.1.0")
+
+    implementation(project(":core:logging"))
 }

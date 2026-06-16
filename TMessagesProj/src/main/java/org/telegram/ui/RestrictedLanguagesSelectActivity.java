@@ -8,6 +8,9 @@
 
 package org.telegram.ui;
 
+// forky code start
+import io.github.tg4afe.Sets;
+// forky code end
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -23,7 +26,7 @@ import android.widget.FrameLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.common.collect.Sets;
+// forky comment line import com.google.common.collect.Sets;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;

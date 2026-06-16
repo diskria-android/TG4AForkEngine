@@ -10,7 +10,7 @@ package org.telegram.messenger;
 
 // forky code start
 import org.telegram.messenger.core.logging.BuildConfig;
-import androidx.core.util.Supplier;
+import org.telegram.messenger.core.logging.AndroidUtilities;
 // forky code end
 import android.content.Context;
 import android.content.res.ColorStateList;

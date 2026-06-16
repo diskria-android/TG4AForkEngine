@@ -8,6 +8,12 @@
 
 package org.telegram.messenger;
 
+// forky code start
+import org.telegram.messenger.core.logging.CoreLoggingBridge;
+import org.telegram.messenger.third_party.exoplayer.ExoplayerBridge;
+import org.telegram.messenger.third_party.recycler_view.RecyclerViewBridge;
+import kotlin.Unit;
+// forky code end
 import static org.telegram.messenger.LocaleController.formatString;
 import static org.telegram.messenger.LocaleController.getString;
 
@@ -243,6 +249,18 @@ import java.util.zip.GZIPOutputStream;
 import me.vkryl.core.BitwiseUtils;
 
 public class AndroidUtilities {
+
+    // forky code start
+    static {
+        RecyclerViewBridge.dp = AndroidUtilities::dp;
+        RecyclerViewBridge.runOnUIThread = runnable -> {
+            runOnUIThread(runnable);
+            return Unit.INSTANCE;
+        };
+        ExoplayerBridge.formatFileSize = AndroidUtilities::formatFileSize;
+        CoreLoggingBridge.getLogsDir = AndroidUtilities::getLogsDir;
+    }
+    // forky code end
     public final static int LIGHT_STATUS_BAR_OVERLAY = 0x0f000000, DARK_STATUS_BAR_OVERLAY = 0x33000000;
 
     public final static int REPLACING_TAG_TYPE_LINK = 0;

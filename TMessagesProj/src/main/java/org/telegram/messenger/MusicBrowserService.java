@@ -8,6 +8,9 @@
 
 package org.telegram.messenger;
 
+// forky code start
+import androidx.annotation.Nullable;
+// forky code end
 import android.annotation.TargetApi;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -51,7 +54,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import javax.annotation.Nullable;
+// forky comment line import javax.annotation.Nullable;
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class MusicBrowserService extends MediaBrowserService implements NotificationCenter.NotificationCenterDelegate {

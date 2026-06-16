@@ -58,7 +58,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.common.primitives.Chars;
+// forky comment line import com.google.common.primitives.Chars;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BuildVars;

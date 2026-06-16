@@ -15,7 +15,7 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 
-// forky comment line import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger /* forky code start */ .third_party.recycler_view /* forky code end */ .AndroidUtilities;
 
 public class LinearSmoothScrollerCustom extends RecyclerView.SmoothScroller {
 
@@ -148,7 +148,7 @@ public class LinearSmoothScrollerCustom extends RecyclerView.SmoothScroller {
         } else if (scrollPosition == POSITION_MIDDLE) {
             start = (boxSize - viewSize) / 2;
         } else {
-            start = (layoutManager.getPaddingTop() + offset - AndroidUtilities.dp(88 /* forky code start */ , view /* forky code end */));
+            start = (layoutManager.getPaddingTop() + offset - AndroidUtilities.dp(88));
         }
         end = start + viewSize;
         final int dtStart = start - top;

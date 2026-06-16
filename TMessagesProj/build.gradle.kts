@@ -224,6 +224,9 @@ dependencies {
     implementation("androidx.sharetarget:sharetarget:1.2.0")
     implementation("androidx.fragment:fragment:1.8.9")
 
+    compileOnly("org.checkerframework:checker-qual:2.5.2")
+    compileOnly("org.checkerframework:checker-compat-qual:2.5.0")
+
     // Photo Editor/Processing & QR Scan
     implementation("androidx.exifinterface:exifinterface:1.3.6")
     implementation("com.google.android.gms:play-services-mlkit-subject-segmentation:16.0.0-beta1")
@@ -311,8 +314,8 @@ dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
 
     implementation(project(":core:utils"))
-    implementation(project(":core:multithreading"))
     implementation(project(":core:time"))
+    implementation(project(":core:multithreading"))
     implementation(project(":core:logging"))
     implementation(project(":core:cpp"))
 

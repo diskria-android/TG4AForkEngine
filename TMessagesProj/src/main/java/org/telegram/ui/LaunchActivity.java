@@ -82,7 +82,7 @@ import androidx.core.content.pm.ShortcutManagerCompat;
 import androidx.core.graphics.ColorUtils;
 
 import com.google.android.gms.common.api.Status;
-import com.google.common.primitives.Longs;
+// forky comment line import com.google.common.primitives.Longs;
 import com.google.firebase.appindexing.Action;
 import com.google.firebase.appindexing.FirebaseUserActions;
 import com.google.firebase.appindexing.builders.AssistActionBuilder;
@@ -8976,7 +8976,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     dids.add(dialogIds[i]);
                 }
             }
-            finalDialogIds = Longs.toArray(dids);
+            finalDialogIds = /* forky comment Longs.toArray( */ dids /* forky comment ) */ /* forky code start */ .stream().mapToLong(Long::longValue).toArray() /* forky code end */;
         } else {
             finalDialogIds = dialogIds;
         }

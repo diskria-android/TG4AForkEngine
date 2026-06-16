@@ -1,5 +1,8 @@
 package org.telegram.ui.Components;
 
+// forky code start
+import java.nio.charset.StandardCharsets;
+// forky code end
 import static org.telegram.messenger.AndroidUtilities.dp;
 import static org.telegram.messenger.AndroidUtilities.dpf2;
 import static org.telegram.messenger.TranslateController.normalizeLanguage;
@@ -41,7 +44,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.common.base.Charsets;
+// forky comment line import com.google.common.base.Charsets;
 //import com.google.mlkit.common.model.RemoteModelManager;
 //import com.google.mlkit.nl.translate.TranslateLanguage;
 //import com.google.mlkit.nl.translate.TranslateRemoteModel;
@@ -522,7 +525,7 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
                     connection.setRequestProperty("Content-Type", "application/json");
 
                     StringBuilder textBuilder = new StringBuilder();
-                    try (Reader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), Charsets.UTF_8))) {
+                    try (Reader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), /* forky comment Charsets */ /* forky code start */ StandardCharsets /* forky code end */ .UTF_8))) {
                         int c = 0;
                         while ((c = reader.read()) != -1) {
                             textBuilder.append((char) c);

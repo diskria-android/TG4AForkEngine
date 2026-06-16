@@ -16,7 +16,8 @@ dependencies {
     compileOnly("org.checkerframework:checker-qual:2.5.2")
     compileOnly("org.checkerframework:checker-compat-qual:2.5.0")
 
+    implementation(project(":core:utils"))
+    implementation(project(":core:multithreading"))
     implementation(project(":core:logging"))
     implementation(project(":core:cpp"))
-    implementation(project(":core:multithreading"))
 }

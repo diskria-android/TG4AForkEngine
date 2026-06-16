@@ -11,8 +11,8 @@ plugins {
 }
 
 include(":core:utils")
-include(":core:multithreading")
 include(":core:time")
+include(":core:multithreading")
 include(":core:logging")
 include(":core:cpp")
 

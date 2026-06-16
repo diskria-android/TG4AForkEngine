@@ -8,6 +8,9 @@
 
 package org.telegram.messenger;
 
+// forky code start
+import io.github.tg4afe.Lists;
+// forky code end
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -64,7 +67,7 @@ import androidx.core.content.pm.ShortcutManagerCompat;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.graphics.drawable.IconCompat;
 
-import com.google.common.collect.Lists;
+// forky comment line import com.google.common.collect.Lists;
 
 import org.telegram.messenger.support.LongSparseIntArray;
 import org.telegram.messenger.utils.tlutils.TlUtils;

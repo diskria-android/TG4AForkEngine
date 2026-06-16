@@ -1604,7 +1604,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
 
         NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.stickersDidLoad);
         NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.groupStickersDidLoad);
-        FileLog.disableGson(true);
+        // forky comment line FileLog.disableGson(true);
 
         if (!onlyStickers) {
             MediaDataController.getInstance(currentAccount).checkStickers(MediaDataController.TYPE_EMOJIPACKS);
@@ -1644,7 +1644,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
         NotificationCenter.getInstance(currentAccount).removeObserver(this, NotificationCenter.groupStickersDidLoad);
         closeKeyboard();
         super.dismiss();
-        FileLog.disableGson(false);
+        // forky comment line FileLog.disableGson(false);
     }
 
     private Utilities.Callback2<Bitmap, Float> drawBlurBitmap;

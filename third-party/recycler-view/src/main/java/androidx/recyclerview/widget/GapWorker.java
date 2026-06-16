@@ -21,10 +21,8 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.core.os.TraceCompat;
 
-/* forky comment
-import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger /* forky code start */ .third_party.recycler_view /* forky code end */ .AndroidUtilities;
 import org.telegram.messenger.FileLog;
-*/
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -307,14 +305,12 @@ final class GapWorker implements Runnable {
                 }
             }
         } catch (Exception e) {
-            /* forky comment
             FileLog.e(e);
             AndroidUtilities.runOnUIThread(() -> {
                 if (view.getAdapter() != null) {
                     view.getAdapter().notifyDataSetChanged();
                 }
             });
-            */
             return null;
         } finally {
             view.onExitLayoutOrScroll(false);
