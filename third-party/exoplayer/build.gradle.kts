@@ -11,10 +11,10 @@ android {
 
 dependencies {
     implementation("androidx.mediarouter:mediarouter:1.7.0")
-    implementation("com.google.guava:guava:31.1-android")
 
-    compileOnly("org.checkerframework:checker-qual:2.5.2")
-    compileOnly("org.checkerframework:checker-compat-qual:2.5.0")
+    api("com.google.guava:guava:31.1-android")
+    compileOnlyApi("org.checkerframework:checker-qual:2.5.2")
+    compileOnlyApi("org.checkerframework:checker-compat-qual:2.5.0")
 
     implementation(project(":core:utils"))
     implementation(project(":core:multithreading"))
