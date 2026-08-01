@@ -6,14 +6,12 @@ import com.palantir.javapoet.CodeBlock
 import com.palantir.javapoet.JavaFile
 import com.palantir.javapoet.MethodSpec
 import com.palantir.javapoet.TypeSpec
-import io.github.tg4afe.extensions.capitalized
 import io.github.tg4afe.extensions.jp.JPBoolean
 import io.github.tg4afe.extensions.jp.JPClassName
 import io.github.tg4afe.extensions.jp.JPContext
 import io.github.tg4afe.extensions.jp.JPInt
 import io.github.tg4afe.extensions.jp.JPModifier
 import io.github.tg4afe.extensions.jp.JPString
-import io.github.tg4afe.extensions.quoted
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.provider.ListProperty
@@ -45,8 +43,7 @@ abstract class GenerateAppIconsTask : DefaultTask() {
         val stringsXmlFile = File(valuesFolder, "strings.xml")
         ResourcesPoet.create().apply {
             icons.get().forEach { icon ->
-                val name = icon.name.capitalized()
-                addString("AppIcon$name", name, translatable = false)
+                addString(icon.stringResourceName, icon.name, translatable = false)
             }
             indent(true)
         }.build(stringsXmlFile)
@@ -96,7 +93,7 @@ abstract class GenerateAppIconsTask : DefaultTask() {
                         packageManagerClassName,
                         packageManagerClassName,
                         enumClassName,
-                        defaultIconName.name.uppercase(),
+                        defaultIconName.enumName,
                     )
                 }.build()
             )
@@ -110,7 +107,7 @@ abstract class GenerateAppIconsTask : DefaultTask() {
                     addStatement(
                         $$"setIcon(context, $T.$L)",
                         enumClassName,
-                        defaultIconName.name.uppercase()
+                        defaultIconName.enumName
                     )
                 }.build()
             )
@@ -127,27 +124,27 @@ abstract class GenerateAppIconsTask : DefaultTask() {
             val rClassName = ClassName.get("org.telegram.messenger.feature.app_icons", "R")
             icons.get().forEach { icon ->
                 val argumentsCodeBlock = CodeBlock.of(
-                    $$"$S, $T.$L, $T.$L, $T.string.AppIcon$L, $L",
-                    icon.name.capitalized() + "Icon",
+                    $$"$S, $T.$L, $T.$L, $T.string.$L, $L",
+                    icon.componentCls,
                     rClassName, icon.background.codeReference,
                     rClassName, icon.foreground.codeReference,
-                    rClassName, icon.name.capitalized(),
+                    rClassName, icon.stringResourceName,
                     icon.isPremium,
                 )
                 addEnumConstant(
-                    icon.name.uppercase(),
+                    icon.enumName,
                     TypeSpec.anonymousClassBuilder(argumentsCodeBlock).build()
                 )
             }
-            addField(JPString, "key", JPModifier.PUBLIC, JPModifier.FINAL)
+            addField(JPString, "componentCls", JPModifier.PUBLIC, JPModifier.FINAL)
             addField(JPInt, "background", JPModifier.PUBLIC, JPModifier.FINAL)
             addField(JPInt, "foreground", JPModifier.PUBLIC, JPModifier.FINAL)
             addField(JPInt, "title", JPModifier.PUBLIC, JPModifier.FINAL)
             addField(JPBoolean, "premium", JPModifier.PUBLIC, JPModifier.FINAL)
             addMethod(
                 MethodSpec.constructorBuilder().apply {
-                    addParameter(JPString, "key")
-                    addStatement("this.key = key")
+                    addParameter(JPString, "componentCls")
+                    addStatement("this.componentCls = componentCls")
                     addParameter(JPInt, "background")
                     addStatement("this.background = background")
                     addParameter(JPInt, "foreground")
@@ -167,8 +164,7 @@ abstract class GenerateAppIconsTask : DefaultTask() {
                     returns(componentNameClassName)
                     addParameter(JPContext, "context")
                     beginControlFlow("if (componentName == null)")
-                    val namePrefix = "org.telegram.messenger.".quoted()
-                    addStatement("componentName = new ComponentName(context.getPackageName(), $namePrefix + key)")
+                    addStatement("componentName = new ComponentName(context.getPackageName(), componentCls)")
                     endControlFlow()
                     addStatement("return componentName")
                 }.build()

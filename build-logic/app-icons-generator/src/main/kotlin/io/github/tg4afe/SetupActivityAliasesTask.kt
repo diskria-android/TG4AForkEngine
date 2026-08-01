@@ -5,7 +5,6 @@ import groovy.util.Node
 import groovy.util.NodeList
 import groovy.xml.XmlParser
 import groovy.xml.XmlUtil
-import io.github.tg4afe.extensions.capitalized
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.file.RegularFileProperty
@@ -58,7 +57,7 @@ abstract class SetupActivityAliasesTask : DefaultTask() {
             val attrs = buildList {
                 addAll(
                     listOf(
-                        nameAttr to "org.telegram.messenger." + icon.name.capitalized() + "Icon",
+                        nameAttr to icon.componentCls,
                         androidAttr("targetActivity") to targetActivityName,
                         androidAttr("enabled") to icon.isDefault.toString(),
                         androidAttr("exported") to "true",

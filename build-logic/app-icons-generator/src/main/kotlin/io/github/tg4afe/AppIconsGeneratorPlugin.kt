@@ -1,6 +1,7 @@
 package io.github.tg4afe
 
 import com.android.build.api.artifact.SingleArtifact
+import com.android.build.api.variant.ApplicationVariant
 import com.android.build.api.variant.Variant
 import io.github.tg4afe.extensions.android.android
 import io.github.tg4afe.extensions.android.androidComponents
@@ -42,6 +43,7 @@ class AppIconsGeneratorPlugin : Plugin<Project> {
             }
         }
         androidComponents.onVariants { variant ->
+            if (variant !is ApplicationVariant) return@onVariants
             val activeFlavorName = variant.productFlavors.firstOrNull()?.second
             val iconConfigs = defaultExtension.list.map { defaultIcon ->
                 val finalConfig = defaultIcon.cloneConfig()
@@ -62,7 +64,8 @@ class AppIconsGeneratorPlugin : Plugin<Project> {
                     singleIcon.validateRoundIcon().resourceReference
                 )
             } else {
-                val iconTaskInputs = iconConfigs.map { it.mapToTaskInput() }
+                val applicationId = variant.applicationId.get()
+                val iconTaskInputs = iconConfigs.map { it.mapToTaskInput(applicationId) }
                 val defaultIcon = iconTaskInputs.singleOrNull { it.isDefault }
                 if (defaultIcon == null) {
                     throw GradleException("One and only one default app icon is required")
@@ -117,9 +120,12 @@ class AppIconsGeneratorPlugin : Plugin<Project> {
         }
     }
 
-    private fun AppIconConfig.mapToTaskInput(): AppIconTaskInput =
+    private fun AppIconConfig.mapToTaskInput(applicationId: String): AppIconTaskInput =
         AppIconTaskInput(
-            name = name,
+            name = name.capitalized(),
+            enumName = name.uppercase(),
+            stringResourceName = "AppIcon${name.capitalized()}",
+            componentCls = "$applicationId.${name.capitalized()}Icon",
             icon = validateIcon().mapToTaskInput(),
             roundIcon = validateRoundIcon().mapToTaskInput(),
             background = validateBackground().mapToTaskInput(),

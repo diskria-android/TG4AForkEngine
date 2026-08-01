@@ -8,6 +8,15 @@ data class AppIconTaskInput(
     @get:Input
     val name: String,
 
+    @get:Input
+    val enumName: String,
+
+    @get:Input
+    val stringResourceName: String,
+
+    @get:Input
+    val componentCls: String,
+
     @get:Nested
     val icon: IconResourceTaskInput,
 
